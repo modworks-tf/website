@@ -1,0 +1,150 @@
+---
+import "../styles/global.css";
+const { title = "modworks" } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Header start 👇 -->
+    <header class="header">
+      <h2>App</h2>
+      <p class="divider">|</p>
+      <p>Overview over discord server stats</p>
+    </header>
+
+    <!-- Sidebar start 👇 -->
+    <section class="sidebar">
+      <div class="sidebar-header">
+        <img src="./favicon.png" alt="logo" class="logo" />
+        <span class="title">modworks</span>
+        <a href="." aria-label="Return">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="512"
+            height="512"
+            viewBox="0 0 512 512"
+            ><path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="32"
+              d="M176 176v-40a40 40 0 0 1 40-40h208a40 40 0 0 1 40 40v240a40 40 0 0 1-40 40H216a40 40 0 0 1-40-40v-40"
+            ></path><path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="32"
+              d="m272 336l80-80l-80-80M48 256h288"></path></svg
+          >
+        </a>
+      </div>
+    </section>
+
+    <!-- Main start 👇 -->
+    <main class="main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 60px 1fr;
+    color: white; /* remove */
+    font-family:
+      "Inter",
+      Segoe UI,
+      sans-serif;
+  }
+
+  a {
+    all: unset;
+  }
+  a:hover {
+    cursor: pointer;
+  }
+
+  /* Header start 👇 */
+  .header {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 20px;
+    background-color: #0d0c13;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .divider {
+    margin-left: 20px;
+    margin-right: 20px;
+    color: var(--color-text-muted);
+  }
+  .header h2 {
+    font-size: 18px;
+  }
+  .header p {
+    color: var(--color-text-muted);
+  }
+
+  /* Sidebar start 👇 */
+  .sidebar {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    background-color: var(--color-sidebar);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .sidebar-header {
+    display: flex;
+    padding: 12px;
+    align-items: center;
+  }
+  .sidebar-header svg {
+    height: 2rem;
+    width: 2rem;
+    transform: rotate(180deg);
+    margin-left: auto;
+  }
+  .sidebar-header a svg path {
+    stroke: var(--color-text-muted);
+  }
+  .sidebar-header a:hover svg path {
+    stroke: var(--color-text);
+  }
+  .sidebar-header a {
+    margin-left: auto;
+  }
+
+  .logo {
+    width: 32px;
+    height: auto;
+    margin-right: 12px;
+  }
+
+  .title {
+    color: var(--color-text);
+    font-size: 24px;
+    font-weight: 600;
+  }
+  /* Main start 👇 */
+  .main {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+
+    background-color: #0d0c13;
+  }
+</style>

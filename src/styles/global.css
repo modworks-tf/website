@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sen:wght@400..800&display=swap");
+
+:root {
+  --color-sidebar: #16151c;
+  --color-border: #2a2933;
+  --color-text: #f4f3f8;
+  --color-text-muted: #9d9ba9;
+}
