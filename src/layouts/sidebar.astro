@@ -1,73 +1,85 @@
 ---
 import "../styles/global.css";
-const { title = "modworks" } = Astro.props;
+import { Image } from "astro:assets";
+import logo from "../logo.png";
+const { title = "modworks.tf" } = Astro.props;
+const { header = "header " } = Astro.props;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-  </head>
-  <body>
-    <!-- Header start 👇 -->
-    <header class="header">
-      <h2>overview</h2>
-      <p class="divider">|</p>
-      <p>view the stats of blabla..</p>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+</head>
+<body>
+  <!-- Header start 👇 -->
+  <header class="header">
+    <h2>{header}</h2>
+    <p class="divider">|</p>
+    <p>view the stats of blabla..</p>
+  </header>
 
-    <!-- Sidebar start 👇 -->
-    <section class="sidebar">
-      <div class="sidebar-header">
-        <img src="./favicon.png" alt="logo" class="logo" />
-        <span class="title">modworks</span>
-        <a href="." aria-label="Return">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="512"
-            height="512"
-            viewBox="0 0 512 512"
-            ><path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="M176 176v-40a40 40 0 0 1 40-40h208a40 40 0 0 1 40 40v240a40 40 0 0 1-40 40H216a40 40 0 0 1-40-40v-40"
-            ></path><path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="m272 336l80-80l-80-80M48 256h288"></path></svg
-          >
-        </a>
-      </div>
-      <div class="sidebar-item">
+  <!-- Sidebar start 👇 -->
+  <section class="sidebar">
+    <div class="sidebar-header">
+      <Image src={logo} alt="logo" class="logo" loading="eager" />
+      <span class="title">modworks</span>
+      <a href="." aria-label="Return">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          ><path
-            fill="currentColor"
-            d="M10.995 4.68v3.88A2.44 2.44 0 0 1 8.545 11h-3.86a2.38 2.38 0 0 1-1.72-.72a2.4 2.4 0 0 1-.71-1.72V4.69a2.44 2.44 0 0 1 2.43-2.44h3.87a2.42 2.42 0 0 1 1.72.72a2.4 2.4 0 0 1 .72 1.71m10.75.01v3.87a2.46 2.46 0 0 1-2.43 2.44h-3.88a2.5 2.5 0 0 1-1.73-.71a2.44 2.44 0 0 1-.71-1.73V4.69a2.4 2.4 0 0 1 .72-1.72a2.42 2.42 0 0 1 1.72-.72h3.87a2.46 2.46 0 0 1 2.44 2.44m0 10.75v3.87a2.46 2.46 0 0 1-2.43 2.44h-3.88a2.5 2.5 0 0 1-1.75-.69a2.42 2.42 0 0 1-.71-1.73v-3.87a2.4 2.4 0 0 1 .72-1.72a2.42 2.42 0 0 1 1.72-.72h3.87a2.46 2.46 0 0 1 2.44 2.44zm-10.75.01v3.87a2.46 2.46 0 0 1-2.45 2.43h-3.86a2.42 2.42 0 0 1-2.43-2.43v-3.87A2.46 2.46 0 0 1 4.685 13h3.87a2.5 2.5 0 0 1 1.73.72a2.45 2.45 0 0 1 .71 1.73"
-          ></path></svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          ><g
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="4"
+            ><path d="m13 8l-7 6l7 7"></path><path
+              d="M6 14h22.994c6.883 0 12.728 5.62 12.996 12.5c.284 7.27-5.723 13.5-12.996 13.5H11.998"
+            ></path></g
+          ></svg
         >
-        <a>Overview</a>
-      </div>
-    </section>
+      </a>
+    </div>
 
-    <!-- Main start 👇 -->
-    <main class="main">
-      <slot />
-    </main>
-  </body>
-</html>
+    <a class="sidebar-item" href="/app">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        ><path
+          fill="currentColor"
+          d="M28.447 16.106L23 13.381V7a1 1 0 0 0-.553-.894l-6-3a1 1 0 0 0-.894 0l-6 3A1 1 0 0 0 9 7v6.382l-5.447 2.723A1 1 0 0 0 3 17v7a1 1 0 0 0 .553.895l6 3a1 1 0 0 0 .894 0L16 25.118l5.553 2.777a1 1 0 0 0 .894 0l6-3A1 1 0 0 0 29 24v-7a1 1 0 0 0-.553-.895M21 13.381l-4 2v-4.764l4-2Zm-5-8.264L19.764 7L16 8.882L12.236 7Zm-5 3.5l4 2v4.764l-4-2ZM9 25.382l-4-2v-4.764l4 2Zm1-6.5L6.236 17L10 15.118L13.764 17Zm1 1.736l4-2v4.764l-4 2Zm10 4.764l-4-2v-4.764l4 2Zm1-6.5L18.236 17L22 15.118L25.764 17Zm5 4.5l-4 2v-4.764l4-2Z"
+        ></path></svg
+      >
+      <span>Overview</span>
+    </a>
+
+    <a class="sidebar-item" href="/mods">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="M7.5 5.6L5 7l1.4-2.5L5 2l2.5 1.4L10 2L8.6 4.5L10 7zm12 9.8L22 14l-1.4 2.5L22 19l-2.5-1.4L17 19l1.4-2.5L17 14zM22 2l-1.4 2.5L22 7l-2.5-1.4L17 7l1.4-2.5L17 2l2.5 1.4zm-8.66 10.78l2.44-2.44l-2.12-2.12l-2.44 2.44zm1.03-5.49l2.34 2.34c.39.37.39 1.02 0 1.41L5.04 22.71c-.39.39-1.04.39-1.41 0l-2.34-2.34c-.39-.37-.39-1.02 0-1.41L12.96 7.29c.39-.39 1.04-.39 1.41 0"
+        ></path></svg
+      >
+      <span>Mods</span>
+    </a>
+  </section>
+
+  <!-- Main start 👇 -->
+  <main class="main">
+    <slot />
+  </main>
+</body>
 
 <style>
   body {
@@ -98,7 +110,7 @@ const { title = "modworks" } = Astro.props;
     align-items: center;
     justify-content: flex-start;
     padding-left: 20px;
-    background-color: #0d0c13;
+    background-color: var(--color-primary);
     border-bottom: 1px solid var(--color-border);
   }
   .divider {
@@ -117,8 +129,9 @@ const { title = "modworks" } = Astro.props;
   .sidebar {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
-    background-color: var(--color-sidebar);
+    background-color: var(--color-primary);
     border-right: 1px solid var(--color-border);
+    font-weight: 300;
   }
 
   .sidebar-header {
@@ -129,14 +142,11 @@ const { title = "modworks" } = Astro.props;
   .sidebar-header svg {
     height: 2rem;
     width: 2rem;
-    transform: rotate(180deg);
     margin-left: auto;
+    color: var(--color-text-muted);
   }
-  .sidebar-header a svg path {
-    stroke: var(--color-text-muted);
-  }
-  .sidebar-header a:hover svg path {
-    stroke: var(--color-text);
+  .sidebar-header a:hover svg {
+    color: var(--color-text);
   }
   .sidebar-header a {
     margin-left: auto;
@@ -146,6 +156,7 @@ const { title = "modworks" } = Astro.props;
     width: 32px;
     height: auto;
     margin-right: 12px;
+    border-radius: 8px;
   }
 
   .title {
@@ -153,11 +164,34 @@ const { title = "modworks" } = Astro.props;
     font-size: 24px;
     font-weight: 600;
   }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    margin: 0 6px 0 6px;
+    padding: 6px;
+    border-radius: 8px;
+    color: var(--color-text-muted);
+  }
+  .sidebar-item svg {
+    height: 1.5rem;
+    width: auto;
+    margin-right: 8px;
+    margin-left: 8px;
+    color: var(--color-text-muted);
+  }
+  .sidebar-item:hover svg {
+    color: var(--color-text);
+  }
+  .sidebar-item:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-text);
+  }
   /* Main start 👇 */
   .main {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
 
-    background-color: #0d0c13;
+    background-color: var(--color-contentBG);
   }
 </style>
