@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "my-astro-app",
+  "pages_build_output_dir": "./dist",
   // Update to today's date
   "compatibility_date": "2025-03-25",
   "assets": {
