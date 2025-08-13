@@ -140,6 +140,7 @@ body.fade-out {
   border-radius: 6px;
   padding: 12px;
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
 }
@@ -153,6 +154,19 @@ body.fade-out {
   margin: 4px 0 0;
   font-size: 12px;
   color: #aaa;
+}
+
+.option-tags {
+  position: absolute;
+  bottom: 12px;
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.option:has(.option-tags) .info {
+  padding-bottom: 24px;
 }
 
 .tag-new {
@@ -185,6 +199,14 @@ body.fade-out {
   padding: 2px 6px;
   border-radius: 4px;
   margin-left: 6px;
+  color: #fff;
+}
+.tag-info {
+  font-size: 10px;
+  background: #1f202f;
+  border: #373745 1px solid;
+  padding: 2px 6px;
+  border-radius: 4px;
   color: #fff;
 }
 
