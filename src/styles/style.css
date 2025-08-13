@@ -155,9 +155,33 @@ body.fade-out {
   color: #aaa;
 }
 
-.tag {
+.tag-new {
   font-size: 10px;
   background: #da3e44;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  color: #fff;
+}
+.tag-popular {
+  font-size: 10px;
+  background: #4bc9ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  color: #fff;
+}
+.tag-discord {
+  font-size: 10px;
+  background: #5865f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  color: #fff;
+}
+.tag-other {
+  font-size: 10px;
+  background: #868686;
   padding: 2px 6px;
   border-radius: 4px;
   margin-left: 6px;
@@ -212,9 +236,23 @@ body.fade-out {
   text-decoration: none;
   transition: background 0.2s;
 }
-
 .download-btn:hover {
   background: rgba(0, 224, 158, 0.4); /* semi-transparent green */
+}
+
+.link-btn {
+  background: #868686;
+  color: var(--text-color);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.link-btn:hover {
+  background: rgba(134, 134, 134, 0.8); /* semi-transparent gray */
 }
 
 input:checked + .slider {
