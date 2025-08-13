@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("fade-in");
   const tabs = document.querySelectorAll(".tab");
   const contents = document.querySelectorAll(".tab-content");
   const toggles = document.querySelectorAll(".switch input");
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector('.app').classList.add('fade-out');
       setTimeout(() => {
         window.location.href = quitTab.href;
-      }, 500); // match the transition duration
+      }, 250); // match the transition duration
     });
   }
 });

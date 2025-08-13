@@ -23,80 +23,86 @@ import "../styles/style.css";
   </div>
 
   <!-- Category Panels -->
-
-  <!-- Info Tab -->
-  <div class="tab-content active" data-tab="Info">
-    <div class="option">
-      <div class="info">
-        <h3>Welcome 👋</h3>
-        <p>Thank you for using modworks.tf!</p>
+  <div class="panels">
+    <!-- Info Tab -->
+    <div class="tab-content active" data-tab="Info">
+      <div class="option">
+        <div class="info">
+          <h3>Welcome 👋</h3>
+          <p>Thank you for using modworks.tf!</p>
+        </div>
       </div>
     </div>
+
+    <!-- Mods Tab -->
+    <div class="tab-content" data-tab="Mods">
+      <div class="option">
+        <div class="info">
+          <h3>lilith <span class="tag">New</span></h3>
+          <p>A customizable usefull UI in TF2, toggleable with right shift</p>
+        </div>
+        <a
+          class="download-btn"
+          href="https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk"
+          download
+          rel="noopener">
+          Download
+        </a>
+      </div>
+
+      <div class="option">
+        <div class="info">
+          <h3>Venom Crosshair Tool</h3>
+          <p>A tool to create highly customizable weapon specific crosshairs</p>
+        </div>
+        <a
+          class="download-btn"
+          href="https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta16/VenomCrosshairs_b16.0.zip"
+          download
+          rel="noopener">
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ Tab -->
+    <div class="tab-content" data-tab="FAQ">
+      <div class="option">
+        <div class="info">
+          <h3>This part is being worked on!</h3>
+          <p>Comming soon&trade;</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Tab -->
+    <div class="tab-content" data-tab="Other">
+      <div class="option">
+        <div class="info">
+          <h3>This part is being worked on!</h3>
+          <p>Comming soon&trade;</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Tab -->
+    <div class="tab-content" data-tab="Contact">
+      <div class="option">
+        <div class="info">
+          <h3>This part is being worked on!</h3>
+          <p>Comming soon&trade;</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Return Tab -->
+    <div class="tab-content" data-tab="Return"></div>
   </div>
-
-  <!-- Mods Tab -->
-  <div class="tab-content" data-tab="Mods">
-    <div class="option">
-      <div class="info">
-        <h3>lilith <span class="tag">New</span></h3>
-        <p>A customizable usefull UI in TF2, toggleable with right shift</p>
-      </div>
-      <a
-        class="download-btn"
-        href="https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk"
-        download
-        rel="noopener">
-        Download
-      </a>
-    </div>
-
-    <div class="option">
-      <div class="info">
-        <h3>Venom Crosshair Tool</h3>
-        <p>A tool to create highly customizable weapon specific crosshairs</p>
-      </div>
-      <a
-        class="download-btn"
-        href="https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta16/VenomCrosshairs_b16.0.zip"
-        download
-        rel="noopener">
-        Download
-      </a>
-    </div>
-  </div>
-
-  <!-- FAQ Tab -->
-  <div class="tab-content" data-tab="FAQ">
-    <div class="option">
-      <div class="info">
-        <h3>This part is being worked on!</h3>
-        <p>Comming soon&trade;</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Other Tab -->
-  <div class="tab-content" data-tab="Other">
-    <div class="option">
-      <div class="info">
-        <h3>This part is being worked on!</h3>
-        <p>Comming soon&trade;</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contact Tab -->
-  <div class="tab-content" data-tab="Contact">
-    <div class="option">
-      <div class="info">
-        <h3>This part is being worked on!</h3>
-        <p>Comming soon&trade;</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Return Tab -->
-  <div class="tab-content" data-tab="Return"></div>
 </div>
 
 <script src="../scripts/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.style.opacity = "1";
+  });
+</script>
