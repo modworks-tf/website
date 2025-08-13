@@ -1,0 +1,190 @@
+:root {
+  --primary-color: #151515;
+  --secondary-color: #404040;
+  --background-color: #1e1e1e;
+  --red-color: #da3e44;
+  --green-color: #397a55;
+  --blue-color: #4bc9ff;
+  --text-color: #fff;
+  --text-focused: #fff;
+  --text-unfocused: #ccc;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app {
+  width: 900px;
+  border-radius: 8px;
+  padding: 20px;
+}
+.app.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+/* Tabs Styles */
+
+.tabs {
+  color: var(--text-unfocused);
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.tab {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border-radius: 50px;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  color: var(--text-unfocused);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.tab[data-tab="Return"] {
+  /* Custom style for quit tab */
+  color: var(--red-color);
+  text-decoration: none;
+  justify-content: center;
+  display: flex;
+  font-size: 13.3333px;
+}
+.tab[data-tab="Quit"]:hover {
+  /* Custom style for quit tab */
+  color: red;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 5px;
+  left: 5px; /* Gap from left */
+  height: calc(100% - 10px); /* 5px top + 5px bottom */
+  width: calc((100% / 6) - 10px); /* 6 = number of tabs, minus left/right gap */
+  background: var(--secondary-color);
+  border-radius: 40px;
+  z-index: 1;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.tab:hover {
+  color: var(--text-focused);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: grid;
+  gap: 15px;
+}
+
+/* Options Styles */
+
+.option {
+  background: var(--primary-color);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.option p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.tag {
+  font-size: 10px;
+  background: #da3e44;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  color: #fff;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #555;
+  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.download-btn {
+  background: var(--green-color);
+  color: var(--text-focused);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.download-btn:hover {
+  background: rgba(0, 224, 158, 0.4); /* semi-transparent green */
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
