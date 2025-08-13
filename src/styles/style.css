@@ -1,19 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sen:wght@400..800&display=swap");
+
 :root {
   --primary-color: #141414;
   --secondary-color: #404040;
   --background-color: #1e1e1e;
-  --red-color: #da3e44;
+  --red-color: #cc5151;
   --green-color: #397a55;
   --blue-color: #4bc9ff;
   --text-color: #fff;
   --text-focused: #fff;
   --text-unfocused: #ccc;
+  --tab-font-size: 18px;
 }
 
 body {
   background: var(--background-color);
   color: var(--text-color);
-  font-family: Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   display: flex;
   justify-content: center;
   padding: 20px;
@@ -77,6 +80,8 @@ body.fade-out {
 
 .tab {
   flex: 1;
+  font-family: Inter, Arial, sans-serif;
+  font-size: var(--tab-font-size);
   min-width: 0;
   background: transparent;
   border-radius: 50px;
@@ -94,11 +99,11 @@ body.fade-out {
   text-decoration: none;
   justify-content: center;
   display: flex;
-  font-size: 13.3333px;
+  font-size: var(--tab-font-size);
 }
-.tab[data-tab="Quit"]:hover {
+.tab[data-tab="Return"]:hover {
   /* Custom style for quit tab */
-  color: red;
+  color: #cc3d3d;
 }
 
 .tab-indicator {
