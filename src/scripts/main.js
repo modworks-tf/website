@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-  document.body.classList.add("fade-in");
+document.addEventListener("astro:page-load", () => {
   const tabs = document.querySelectorAll(".tab");
   const contents = document.querySelectorAll(".tab-content");
   const toggles = document.querySelectorAll(".switch input");
@@ -43,17 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tabs.forEach((tab, i) => {
       tab.addEventListener("click", () => moveIndicator(i));
       if (tab.classList.contains("active")) moveIndicator(i);
-    });
-  }
-  // Fade out on quit/return tab
-  const quitTab = document.querySelector('.tab[data-tab="Return"]');
-  if (quitTab) {
-    quitTab.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelector('.app').classList.add('fade-out');
-      setTimeout(() => {
-        window.location.href = quitTab.href;
-      }, 250); // match the transition duration
     });
   }
 });

@@ -20,15 +20,6 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-body.fade-in {
-  opacity: 1;
-}
-body.fade-out {
-  opacity: 0;
-  transition: opacity 0.25s;
 }
 
 #title {
@@ -57,10 +48,6 @@ body.fade-out {
   width: 900px;
   border-radius: 8px;
   padding: 20px;
-}
-.app.fade-out {
-  opacity: 0;
-  transition: opacity 0.25s;
 }
 
 /* Tabs Styles */

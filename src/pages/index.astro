@@ -1,5 +1,6 @@
 ---
 import "../styles/style.css";
+import CommonHead from "../components/CommonHead.astro";
 ---
 
 <html lang="en">
@@ -9,12 +10,12 @@ import "../styles/style.css";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>modworks.tf</title>
+    <CommonHead />
   </head>
   <body>
     <div class="landing-page">
       <h1 id="title">modworks.tf</h1>
       <a id="launch-btn" href="./app"> launch →</a>
     </div>
-    <script src="../scripts/index.js"></script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 ---
 import "../styles/style.css";
+import CommonHead from "../components/CommonHead.astro";
 ---
 
 <head>
@@ -8,6 +9,7 @@ import "../styles/style.css";
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <title>modworks.tf</title>
+  <CommonHead />
 </head>
 
 <div class="app">
@@ -38,7 +40,7 @@ import "../styles/style.css";
     <div class="tab-content" data-tab="Mods">
       <div class="option">
         <div class="info">
-          <h3>lilith <span class="tag-new">New</span></h3>
+          <h3>lilith <span class="tag-new">Private</span></h3>
           <p>A customizable usefull UI in TF2, toggleable with right shift</p>
         </div>
         <a
@@ -88,6 +90,27 @@ import "../styles/style.css";
         <div class="option-tags">
           <span class="tag-info">Creator: flewvar</span>
           <span class="tag-info">2.5</span>
+        </div>
+      </div>
+
+      <div class="option">
+        <div class="info">
+          <h3>No Hats Mod bgum</h3>
+          <p>
+            Prevents the game from loading cosmetics, but keeps the default
+            headgear reappear
+          </p>
+        </div>
+        <a
+          class="download-btn"
+          href="https://pevhs.ch/tf2/vpk/nhbgum/no_hats_bgum.vpk"
+          download
+          rel="noopener">
+          Download
+        </a>
+        <div class="option-tags">
+          <span class="tag-info">Creator: pvs</span>
+          <span class="tag-info">Version Unknown</span>
         </div>
       </div>
 
@@ -203,8 +226,3 @@ import "../styles/style.css";
 </div>
 
 <script src="../scripts/main.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.body.style.opacity = "1";
-  });
-</script>
