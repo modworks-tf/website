@@ -4,291 +4,286 @@ import CommonHead from "../components/CommonHead.astro";
 import Modal from "../components/Modal.astro";
 ---
 
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="generator" content={Astro.generator} />
-  <title>modworks.tf</title>
-  <CommonHead />
-</head>
+<CommonHead />
+<body>
+  <div class="app">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="Info">Info</button>
+      <button class="tab" data-tab="Mods">Mods</button>
+      <button class="tab" data-tab="FAQ">FAQ</button>
+      <button class="tab" data-tab="Other">Other</button>
+      <button class="tab" data-tab="Contact">Contact</button>
+      <a class="tab" data-tab="Return" href="/">Return</a>
+      <div class="tab-indicator"></div>
+    </div>
 
-<div class="app">
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" data-tab="Info">Info</button>
-    <button class="tab" data-tab="Mods">Mods</button>
-    <button class="tab" data-tab="FAQ">FAQ</button>
-    <button class="tab" data-tab="Other">Other</button>
-    <button class="tab" data-tab="Contact">Contact</button>
-    <a class="tab" data-tab="Return" href="/">Return</a>
-    <div class="tab-indicator"></div>
+    <!-- Category Panels -->
+    <div class="panels">
+      <!-- Info Tab -->
+      <div class="tab-content active" data-tab="Info">
+        <div class="option">
+          <div class="info">
+            <h3>Welcome 👋</h3>
+            <p>Thank you for using modworks.tf!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mods Tab -->
+      <div class="tab-content" data-tab="Mods">
+        <div class="option">
+          <div class="info">
+            <h3>lilith <span class="tag-new">Private</span></h3>
+            <p>A customizable usefull UI in TF2, toggleable with right shift</p>
+          </div>
+          <a
+            class="download-btn"
+            href="https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk"
+            download
+            rel="noopener">
+            Download
+          </a>
+          <div class="option-tags">
+            <span class="tag-info">Creator: iMicro</span>
+            <span class="tag-info">1.4.1</span>
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Venom Crosshairs</h3>
+            <p>
+              A tool to create highly customizable weapon specific crosshairs
+            </p>
+          </div>
+          <a
+            class="download-btn"
+            href="https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta17/VenomCrosshairs_b17.0.zip"
+            download
+            rel="noopener">
+            Download
+          </a>
+          <div class="option-tags">
+            <span class="tag-info">Creator: hbivnm</span>
+            <span class="tag-info">beta 17.0</span>
+            <span class="tag-info">tool</span>
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Flat Textures</h3>
+            <p>Overhaul the TF2 textures, with fancy new smooth ones</p>
+          </div>
+          <a
+            class="download-btn"
+            href="https://gamebanana.com/dl/677961"
+            download
+            rel="noopener">
+            Download
+          </a>
+          <div class="option-tags">
+            <span class="tag-info">Creator: flewvar</span>
+            <span class="tag-info">2.5</span>
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>No Hats</h3>
+            <p>
+              Prevents the game from loading cosmetics, but keeps the merc's
+              default headgear
+            </p>
+          </div>
+          <a
+            class="download-btn"
+            href="https://pevhs.ch/tf2/vpk/nhbgum/no_hats_bgum.vpk"
+            download
+            rel="noopener">
+            Download
+          </a>
+          <div class="option-tags">
+            <span class="tag-info">Creator: pvs</span>
+            <span class="tag-info">latest</span>
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Yttrium's Competetive Viewmodels</h3>
+            <p>Great customizable tool to selectively hide weapon viewmodels</p>
+          </div>
+          <a
+            class="download-btn"
+            href="https://github.com/Yttrium-tYcLief/CompVMInstaller/releases/download/v1.4.1/CompVMInstaller_1.4.1.exe"
+            download
+            rel="noopener">
+            Download
+          </a>
+          <div class="option-tags">
+            <span class="tag-info">Creator: Yttrium</span>
+            <span class="tag-info">1.4.1</span>
+            <span class="tag-info">tool</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Tab -->
+      <div class="tab-content" data-tab="FAQ">
+        <div class="option">
+          <div class="info">
+            <h3>This part is being worked on!</h3>
+            <p>Comming soon&trade;</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other Tab -->
+      <div class="tab-content" data-tab="Other">
+        <div class="option">
+          <div class="info">
+            <h3>OpenAsar <span class="tag-discord">Discord</span></h3>
+            <p>
+              A rewrite of part of Discord's desktop code, making it faster and
+              including more features
+            </p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://openasar.dev/"
+            target="_blank"
+            rel="noopener">
+            Open
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Vencord <span class="tag-discord">Discord</span></h3>
+            <p>
+              A modification for the Discord client that blocks tracking, adds
+              plugins, theme support and much more
+            </p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://vencord.dev/"
+            target="_blank"
+            rel="noopener">
+            Open
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Better Discord <span class="tag-discord">Discord</span></h3>
+            <p>
+              BetterDiscord extends the functionality of DiscordApp by enhancing
+              it with new features
+            </p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://betterdiscord.app/"
+            target="_blank"
+            rel="noopener">
+            Open
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Equalizer APO <span class="tag-other">sfx</span></h3>
+            <p>A parametric / graphic equalizer for Windows</p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://sourceforge.net/projects/equalizerapo/"
+            target="_blank"
+            rel="noopener">
+            Open
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Custom CSS <span class="tag-discord">Discord</span></h3>
+            <p>
+              Custom CSS code that modifies the Discord client. Use a tool such
+              as Vencord, OpenAsar or Better Discord to implement it.
+            </p>
+          </div>
+          <button class="download-btn" data-open-modal="customcss-modal"
+            >Script</button
+          >
+          <Modal id="customcss-modal" title="Discord css-snippets">
+            <p>
+              A set of snippets aimed to enhance the Discord client. Some of
+              them are for general use, but others are more personalized to me.
+              Check out each folder for more info about the snippet.
+            </p>
+            <br />
+            <h3>My settings</h3>
+            <p>@import url(//whyimicro.github.io/css-snippets/import.css);</p>
+            <br />
+            <h3>Compact Mode</h3>
+            <p>
+              @import url(//whyimicro.github.io/css-snippets/compactImport.css);
+            </p>
+          </Modal>
+        </div>
+      </div>
+
+      <!-- Contact Tab -->
+      <div class="tab-content" data-tab="Contact">
+        <div class="option">
+          <div class="info">
+            <h3>Discord</h3>
+            <p>Join the modworks.tf discord server</p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://discord.gg/XFDn8bbC7Q"
+            target="_blank"
+            rel="noopener">
+            Join
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Steam</h3>
+            <p>The creator of modworks.tf's steam profile</p>
+          </div>
+          <a
+            class="link-btn"
+            href="https://steamcommunity.com/profiles/76561198344765754"
+            target="_blank"
+            rel="noopener">
+            Open
+          </a>
+        </div>
+
+        <div class="option">
+          <div class="info">
+            <h3>Mail</h3>
+            <p>Send us a mail</p>
+          </div>
+          <a
+            class="link-btn"
+            href="mailto:support@modworks.tf"
+            target="_blank"
+            rel="noopener">
+            support@modworks.tf
+          </a>
+        </div>
+      </div>
+
+      <!-- Return Tab -->
+      <div class="tab-content" data-tab="Return"></div>
+    </div>
   </div>
-
-  <!-- Category Panels -->
-  <div class="panels">
-    <!-- Info Tab -->
-    <div class="tab-content active" data-tab="Info">
-      <div class="option">
-        <div class="info">
-          <h3>Welcome 👋</h3>
-          <p>Thank you for using modworks.tf!</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mods Tab -->
-    <div class="tab-content" data-tab="Mods">
-      <div class="option">
-        <div class="info">
-          <h3>lilith <span class="tag-new">Private</span></h3>
-          <p>A customizable usefull UI in TF2, toggleable with right shift</p>
-        </div>
-        <a
-          class="download-btn"
-          href="https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk"
-          download
-          rel="noopener">
-          Download
-        </a>
-        <div class="option-tags">
-          <span class="tag-info">Creator: iMicro</span>
-          <span class="tag-info">1.4.1</span>
-        </div>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Venom Crosshairs</h3>
-          <p>A tool to create highly customizable weapon specific crosshairs</p>
-        </div>
-        <a
-          class="download-btn"
-          href="https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta17/VenomCrosshairs_b17.0.zip"
-          download
-          rel="noopener">
-          Download
-        </a>
-        <div class="option-tags">
-          <span class="tag-info">Creator: hbivnm</span>
-          <span class="tag-info">beta 17.0</span>
-          <span class="tag-info">tool</span>
-        </div>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Flat Textures</h3>
-          <p>Overhaul the TF2 textures, with fancy new smooth ones</p>
-        </div>
-        <a
-          class="download-btn"
-          href="https://gamebanana.com/dl/677961"
-          download
-          rel="noopener">
-          Download
-        </a>
-        <div class="option-tags">
-          <span class="tag-info">Creator: flewvar</span>
-          <span class="tag-info">2.5</span>
-        </div>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>No Hats</h3>
-          <p>
-            Prevents the game from loading cosmetics, but keeps the merc's
-            default headgear
-          </p>
-        </div>
-        <a
-          class="download-btn"
-          href="https://pevhs.ch/tf2/vpk/nhbgum/no_hats_bgum.vpk"
-          download
-          rel="noopener">
-          Download
-        </a>
-        <div class="option-tags">
-          <span class="tag-info">Creator: pvs</span>
-          <span class="tag-info">latest</span>
-        </div>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Yttrium's Competetive Viewmodels</h3>
-          <p>Great customizable tool to selectively hide weapon viewmodels</p>
-        </div>
-        <a
-          class="download-btn"
-          href="https://github.com/Yttrium-tYcLief/CompVMInstaller/releases/download/v1.4.1/CompVMInstaller_1.4.1.exe"
-          download
-          rel="noopener">
-          Download
-        </a>
-        <div class="option-tags">
-          <span class="tag-info">Creator: Yttrium</span>
-          <span class="tag-info">1.4.1</span>
-          <span class="tag-info">tool</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- FAQ Tab -->
-    <div class="tab-content" data-tab="FAQ">
-      <div class="option">
-        <div class="info">
-          <h3>This part is being worked on!</h3>
-          <p>Comming soon&trade;</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Other Tab -->
-    <div class="tab-content" data-tab="Other">
-      <div class="option">
-        <div class="info">
-          <h3>OpenAsar <span class="tag-discord">Discord</span></h3>
-          <p>
-            A rewrite of part of Discord's desktop code, making it faster and
-            including more features
-          </p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://openasar.dev/"
-          target="_blank"
-          rel="noopener">
-          Open
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Vencord <span class="tag-discord">Discord</span></h3>
-          <p>
-            A modification for the Discord client that blocks tracking, adds
-            plugins, theme support and much more
-          </p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://vencord.dev/"
-          target="_blank"
-          rel="noopener">
-          Open
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Better Discord <span class="tag-discord">Discord</span></h3>
-          <p>
-            BetterDiscord extends the functionality of DiscordApp by enhancing
-            it with new features
-          </p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://betterdiscord.app/"
-          target="_blank"
-          rel="noopener">
-          Open
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Equalizer APO <span class="tag-other">sfx</span></h3>
-          <p>A parametric / graphic equalizer for Windows</p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://sourceforge.net/projects/equalizerapo/"
-          target="_blank"
-          rel="noopener">
-          Open
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Custom CSS <span class="tag-discord">Discord</span></h3>
-          <p>
-            Custom CSS code that modifies the Discord client. Use a tool such as
-            Vencord, OpenAsar or Better Discord to implement it.
-          </p>
-        </div>
-        <button class="download-btn" data-open-modal="customcss-modal"
-          >Script</button
-        >
-        <Modal id="customcss-modal" title="Discord css-snippets">
-          <p>
-            A set of snippets aimed to enhance the Discord client. Some of them
-            are for general use, but others are more personalized to me. Check
-            out each folder for more info about the snippet.
-          </p>
-          <br />
-          <h3>My settings</h3>
-          <p>@import url(//whyimicro.github.io/css-snippets/import.css);</p>
-          <br />
-          <h3>Compact Mode</h3>
-          <p>
-            @import url(//whyimicro.github.io/css-snippets/compactImport.css);
-          </p>
-        </Modal>
-      </div>
-    </div>
-
-    <!-- Contact Tab -->
-    <div class="tab-content" data-tab="Contact">
-      <div class="option">
-        <div class="info">
-          <h3>Discord</h3>
-          <p>Join the modworks.tf discord server</p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://discord.gg/XFDn8bbC7Q"
-          target="_blank"
-          rel="noopener">
-          Join
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Steam</h3>
-          <p>The creator of modworks.tf's steam profile</p>
-        </div>
-        <a
-          class="link-btn"
-          href="https://steamcommunity.com/profiles/76561198344765754"
-          target="_blank"
-          rel="noopener">
-          Open
-        </a>
-      </div>
-
-      <div class="option">
-        <div class="info">
-          <h3>Mail</h3>
-          <p>Send us a mail</p>
-        </div>
-        <a
-          class="link-btn"
-          href="mailto:support@modworks.tf"
-          target="_blank"
-          rel="noopener">
-          support@modworks.tf
-        </a>
-      </div>
-    </div>
-
-    <!-- Return Tab -->
-    <div class="tab-content" data-tab="Return"></div>
-  </div>
-</div>
-
+</body>
 <script src="../scripts/main.js"></script>

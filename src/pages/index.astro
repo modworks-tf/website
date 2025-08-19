@@ -3,19 +3,10 @@ import "../styles/style.css";
 import CommonHead from "../components/CommonHead.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>modworks.tf</title>
-    <CommonHead />
-  </head>
-  <body>
-    <div class="landing-page">
-      <h1 id="title">modworks.tf</h1>
-      <a id="launch-btn" href="./app"> launch →</a>
-    </div>
-  </body>
-</html>
+<CommonHead />
+<body>
+  <div class="landing-page">
+    <h1 id="title">modworks.tf</h1>
+    <a id="launch-btn" href="./app"> launch →</a>
+  </div>
+</body>
