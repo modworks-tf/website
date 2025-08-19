@@ -1,6 +1,7 @@
 ---
 import "../styles/style.css";
 import CommonHead from "../components/CommonHead.astro";
+import Modal from "../components/Modal.astro";
 ---
 
 <head>
@@ -149,22 +150,52 @@ import CommonHead from "../components/CommonHead.astro";
       <div class="option">
         <div class="info">
           <h3>OpenAsar <span class="tag-discord">Discord</span></h3>
-          <p>Comming soon&trade;</p>
+          <p>
+            A rewrite of part of Discord's desktop code, making it faster and
+            including more features
+          </p>
         </div>
+        <a
+          class="link-btn"
+          href="https://openasar.dev/"
+          target="_blank"
+          rel="noopener">
+          Open
+        </a>
       </div>
 
       <div class="option">
         <div class="info">
           <h3>Vencord <span class="tag-discord">Discord</span></h3>
-          <p>Comming soon&trade;</p>
+          <p>
+            A modification for the Discord client that blocks tracking, adds
+            plugins, theme support and much more
+          </p>
         </div>
+        <a
+          class="link-btn"
+          href="https://vencord.dev/"
+          target="_blank"
+          rel="noopener">
+          Open
+        </a>
       </div>
 
       <div class="option">
         <div class="info">
           <h3>Better Discord <span class="tag-discord">Discord</span></h3>
-          <p>Comming soon&trade;</p>
+          <p>
+            BetterDiscord extends the functionality of DiscordApp by enhancing
+            it with new features
+          </p>
         </div>
+        <a
+          class="link-btn"
+          href="https://betterdiscord.app/"
+          target="_blank"
+          rel="noopener">
+          Open
+        </a>
       </div>
 
       <div class="option">
@@ -172,6 +203,41 @@ import CommonHead from "../components/CommonHead.astro";
           <h3>Equalizer APO <span class="tag-other">sfx</span></h3>
           <p>A parametric / graphic equalizer for Windows</p>
         </div>
+        <a
+          class="link-btn"
+          href="https://sourceforge.net/projects/equalizerapo/"
+          target="_blank"
+          rel="noopener">
+          Open
+        </a>
+      </div>
+
+      <div class="option">
+        <div class="info">
+          <h3>Custom CSS <span class="tag-discord">Discord</span></h3>
+          <p>
+            Custom CSS code that modifies the Discord client. Use a tool such as
+            Vencord, OpenAsar or Better Discord to implement it.
+          </p>
+        </div>
+        <button class="download-btn" data-open-modal="customcss-modal"
+          >Script</button
+        >
+        <Modal id="customcss-modal" title="Discord css-snippets">
+          <p>
+            A set of snippets aimed to enhance the Discord client. Some of them
+            are for general use, but others are more personalized to me. Check
+            out each folder for more info about the snippet.
+          </p>
+          <br />
+          <h3>My settings</h3>
+          <p>@import url(//whyimicro.github.io/css-snippets/import.css);</p>
+          <br />
+          <h3>Compact Mode</h3>
+          <p>
+            @import url(//whyimicro.github.io/css-snippets/compactImport.css);
+          </p>
+        </Modal>
       </div>
     </div>
 

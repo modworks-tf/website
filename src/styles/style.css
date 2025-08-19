@@ -236,8 +236,11 @@ body {
 
 .download-btn {
   background: var(--green-color);
+  border-color: var(--green-color);
   color: var(--text-focused);
+  font-size: 16px;
   border-radius: 6px;
+  border-style: solid;
   padding: 8px 16px;
   margin-left: 10px;
   cursor: pointer;
@@ -270,4 +273,71 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(22px);
+}
+
+/* Modal (always in DOM, hidden by default) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none; /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal {
+  background: var(--primary-color);
+  border-radius: 8px;
+  padding: 20px;
+  width: 480px;
+  max-width: 100%;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.modal-body {
+  margin-top: 10px;
+  color: var(--text-unfocused);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Prevent background scrolling while modal open */
+body.modal-open {
+  overflow: hidden;
 }
