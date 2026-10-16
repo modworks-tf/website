@@ -3,28 +3,27 @@ import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import LatestRelease from "../components/LatestRelease.astro";
 import { mods } from "../data/tf2";
+import { tools } from "../data/discord";
 import { getReleases } from "../lib/releases";
 
 const latest = (await getReleases(1))[0];
 ---
 
-<Base game="home" title="modworks.tf · mods for Minecraft and TF2">
-  <div class="backdrop"></div>
-
+<Base game="home" title="modworks.tf · mods for Minecraft, TF2 and Discord">
   <section class="portal">
     <div class="container">
       <div class="portal-head">
         <span class="eyebrow">modworks.tf</span>
         <h1>Mods and tools, <span class="soft">made and picked by iMicro.</span></h1>
-        <p class="lede">Pick a game. You can switch between them from the top of any page.</p>
+        <p class="lede">Pick one. You can switch between them from the top of any page.</p>
       </div>
 
       <div class="games">
         <a class="game game-tf2" href="/tf2" data-tilt="4">
-          <div class="game-art tf2-art" aria-hidden="true">
+          <div class="game-art chip-art" aria-hidden="true">
             {
               mods.slice(0, 4).map((mod) => (
-                <div class="tf2-chip">
+                <div class="chip">
                   <span>{mod.name.charAt(0).toUpperCase()}</span>
                   {mod.name}
                 </div>
@@ -56,6 +55,30 @@ const latest = (await getReleases(1))[0];
             <p>One Fabric mod for dungeons, Floor 7, the Crystal Hollows and everything in between.</p>
             <span class="game-link">
               {latest ? <>Version <span data-latest-version>{latest.version}</span></> : "Minecraft 26.2"}
+              <Icon name="arrowRight" />
+            </span>
+          </div>
+        </a>
+
+        <a class="game game-discord" href="/discord" data-tilt="4">
+          <div class="game-art chip-art" aria-hidden="true">
+            {
+              tools.map((tool) => (
+                <div class="chip">
+                  <span>{tool.name.charAt(0).toUpperCase()}</span>
+                  {tool.name}
+                </div>
+              ))
+            }
+          </div>
+          <div class="game-body">
+            <div class="game-label">
+              <Icon name="chat" />Discord
+            </div>
+            <h2>Discord mods</h2>
+            <p>Client mods with plugins and themes, a faster desktop app, and CSS snippets to restyle it.</p>
+            <span class="game-link">
+              {tools.length} mods and themes
               <Icon name="arrowRight" />
             </span>
           </div>
@@ -101,7 +124,7 @@ const latest = (await getReleases(1))[0];
 
   .games {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
     margin-top: 48px;
   }
@@ -136,6 +159,11 @@ const latest = (await getReleases(1))[0];
     --game-glow: rgb(232 137 60 / 28%);
   }
 
+  .game-discord {
+    --game-accent: #8b95f8;
+    --game-glow: rgb(88 101 242 / 32%);
+  }
+
   .game:hover {
     border-color: var(--game-accent);
     box-shadow: 0 30px 60px -30px var(--game-glow);
@@ -166,19 +194,21 @@ const latest = (await getReleases(1))[0];
     transform: scale(1.03);
   }
 
-  .tf2-art {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: center;
-    gap: 12px;
-    padding: 32px 40px;
+  /* A short list of what is inside, stepped like cards fanned out. */
+  .chip-art {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 32px;
   }
 
-  .tf2-chip {
+  .chip {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px;
+    width: min(240px, 82%);
+    padding: 9px 12px;
     border-radius: 12px;
     background: var(--surface-2);
     border: 1px solid var(--line-strong);
@@ -190,28 +220,28 @@ const latest = (await getReleases(1))[0];
     transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .tf2-chip:nth-child(even) {
-    transform: translateY(14px);
+  .chip:nth-child(even) {
+    transform: translateX(28px);
   }
 
-  .game:hover .tf2-chip {
-    transform: translateY(-4px);
+  .game:hover .chip {
+    transform: translateX(6px);
   }
 
-  .game:hover .tf2-chip:nth-child(even) {
-    transform: translateY(8px);
+  .game:hover .chip:nth-child(even) {
+    transform: translateX(34px);
   }
 
-  .tf2-chip span {
+  .chip span {
     flex: none;
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
     display: grid;
     place-items: center;
     font-family: var(--font-display);
-    background: rgb(232 137 60 / 16%);
-    color: #f3a463;
+    background: color-mix(in srgb, var(--game-accent) 16%, transparent);
+    color: var(--game-accent);
   }
 
   .game-body {
@@ -262,7 +292,7 @@ const latest = (await getReleases(1))[0];
     transform: translateX(4px);
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 1000px) {
     .games {
       grid-template-columns: 1fr;
     }

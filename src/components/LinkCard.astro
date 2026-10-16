@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+import type { ToolLink } from "../data/types";
+
+/** A card for a tool hosted elsewhere: a link out, or a button that opens a modal. */
+interface Props {
+  item: ToolLink;
+}
+
+const { item } = Astro.props;
+---
+
+<article class="card mod">
+  <div class="mod-top">
+    <span class="mod-initial" aria-hidden="true">{item.name.charAt(0).toUpperCase()}</span>
+    <div class="mod-tags">
+      <span class="tag">{item.tag}</span>
+    </div>
+  </div>
+  <h3>{item.name}</h3>
+  <p>{item.description}</p>
+  {
+    item.modal ? (
+      <button class="btn btn-ghost btn-sm mod-action" data-open-modal={item.modal}>
+        <Icon name="code" />
+        {item.action}
+      </button>
+    ) : (
+      <a class="btn btn-ghost btn-sm mod-action" href={item.href} target="_blank" rel="noopener">
+        {item.action}
+        <Icon name="external" />
+      </a>
+    )
+  }
+</article>

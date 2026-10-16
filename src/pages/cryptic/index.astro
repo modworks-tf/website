@@ -16,13 +16,6 @@ const releaseTitle = (name: string) =>
     .replace(/\s*\(Minecraft[^)]*\)/, "")
     .replace(/^v?\d+(\.\d+)*(-[\d.]+)?\s*[:·—-]?\s*/, "");
 
-const nav = [
-  { label: "Features", href: "#features" },
-  { label: "Install", href: "#install" },
-  { label: "Changelog", href: "#changelog" },
-  { label: "FAQ", href: "#faq" },
-];
-
 const showcases = [
   {
     eyebrow: "The menu",
@@ -44,8 +37,8 @@ const showcases = [
   },
   {
     eyebrow: "Notifications",
-    title: "Told what matters, then left alone",
-    text: "Cookie running low, all four tools found, a party invite you can accept with a key: Cryptic says it in a small notification that slides in, counts down, and gets out of the way.",
+    title: "A familiar face",
+    text: "If you've played with Essential, you'll know these. Cryptic's notifications are modelled on its toasts: a small card slides into the corner, says what happened, counts down and slides away again. A cookie running low, all four tools found, a party invite you can take with a key.",
     image: "/cryptic/toasts.webp",
     alt: "Three Cryptic notifications stacked in the corner",
     width: 288,
@@ -58,11 +51,7 @@ const showcases = [
   game="cryptic"
   title="Cryptic · a Hypixel SkyBlock mod for Minecraft 26.2"
   description="Cryptic puts dungeon solvers, Floor 7 tools, Crystal Hollows helpers and a clean in-game menu into one Fabric mod for Hypixel SkyBlock."
-  image="/cryptic/menu.webp"
-  nav={nav}
-  cta={{ label: "Download", href: download }}>
-  <div class="backdrop"></div>
-
+  image="/cryptic/menu.webp">
   <section class="hero">
     <div class="container">
       <div>
@@ -280,8 +269,8 @@ const showcases = [
   <section class="section" id="faq">
     <div class="container narrow">
       <div class="section-head">
-        <span class="eyebrow">FAQ</span>
-        <h2>Questions people ask</h2>
+        <span class="eyebrow">Help</span>
+        <h2>Frequently asked questions</h2>
       </div>
       <div class="faq">
         {
@@ -296,18 +285,6 @@ const showcases = [
           ))
         }
       </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="cta-band">
-      <div>
-        <h2>Ready for your next run?</h2>
-        <p>Free, and it keeps itself up to date.</p>
-      </div>
-      <a class="btn btn-primary btn-lg" href={download} data-latest-download>
-        <Icon name="download" />Download Cryptic
-      </a>
     </div>
   </section>
 
@@ -634,30 +611,6 @@ const showcases = [
     border-color: rgb(232 168 56 / 45%);
     background: rgb(232 168 56 / 8%);
     color: #f0c77b;
-  }
-
-  .cta-band {
-    margin: 40px 0 0;
-    padding: 40px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--line-strong);
-    background:
-      radial-gradient(80% 140% at 100% 0%, var(--accent-glow), transparent 60%),
-      var(--bg-raised);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .cta-band h2 {
-    font-size: clamp(26px, 3vw, 34px);
-  }
-
-  .cta-band p {
-    margin-top: 8px;
-    color: var(--muted);
   }
 
   @media (max-width: 980px) {

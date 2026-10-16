@@ -1,4 +1,6 @@
-/** The TF2 side: mods, Discord tools and other tools. Ways to get in touch are in contact.ts. */
+/** The TF2 side: mods and other tools. */
+
+import type { ToolLink } from "./types";
 
 export interface Tf2Mod {
   name: string;
@@ -51,49 +53,7 @@ export const mods: Tf2Mod[] = [
   },
 ];
 
-export interface Tf2Link {
-  name: string;
-  description: string;
-  href?: string;
-  tag: string;
-  /** Opens a modal instead of a link. */
-  modal?: string;
-  action: string;
-}
-
-/** Discord client mods and themes. */
-export const discord: Tf2Link[] = [
-  {
-    name: "Vencord",
-    description: "A Discord client mod that blocks tracking, adds plugins, theme support and more.",
-    href: "https://vencord.dev/",
-    tag: "client mod",
-    action: "Open",
-  },
-  {
-    name: "BetterDiscord",
-    description: "Extends what Discord can do with new features.",
-    href: "https://betterdiscord.app/",
-    tag: "client mod",
-    action: "Open",
-  },
-  {
-    name: "OpenAsar",
-    description: "A rewrite of part of Discord's desktop code, faster and with more features.",
-    href: "https://openasar.dev/",
-    tag: "speed",
-    action: "Open",
-  },
-  {
-    name: "Custom CSS",
-    description: "CSS snippets that restyle the Discord client. Use them with Vencord, OpenAsar or BetterDiscord.",
-    tag: "themes",
-    modal: "customcss-modal",
-    action: "Snippets",
-  },
-];
-
-export const others: Tf2Link[] = [
+export const others: ToolLink[] = [
   {
     name: "Equalizer APO",
     description: "A parametric and graphic equalizer for Windows.",

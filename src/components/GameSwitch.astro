@@ -1,27 +1,35 @@
 ---
 import Icon from "./Icon.astro";
+import type { Section } from "../layouts/Base.astro";
 
 /**
- * Minecraft | TF2, in the header of every page. Kept across page changes
- * (transition:persist), so the pill slides from one to the other as the page
- * swaps instead of jumping.
+ * TF2 | Minecraft | Discord, in the header of every page. Kept across page
+ * changes (transition:persist), so the pill slides from one to the other as
+ * the page swaps instead of jumping.
  */
 interface Props {
-  game: "cryptic" | "tf2" | "home";
+  game: Section;
 }
 
 const { game } = Astro.props;
 const active = game === "home" ? "none" : game;
+const links = [
+  { id: "tf2", href: "/tf2", label: "TF2", icon: "target" },
+  { id: "cryptic", href: "/cryptic", label: "Minecraft", icon: "cube" },
+  { id: "discord", href: "/discord", label: "Discord", icon: "chat" },
+] as const;
 ---
 
-<nav class="game-switch" data-active={active} aria-label="Choose a game" transition:persist="game-switch">
+<nav class="game-switch" data-active={active} aria-label="Choose a section" transition:persist="game-switch">
   <span class="indicator" aria-hidden="true"></span>
-  <a href="/cryptic" data-game-link="cryptic" aria-current={game === "cryptic" ? "page" : undefined}>
-    <Icon name="cube" /><span>Minecraft</span>
-  </a>
-  <a href="/tf2" data-game-link="tf2" aria-current={game === "tf2" ? "page" : undefined}>
-    <Icon name="target" /><span>TF2</span>
-  </a>
+  {
+    links.map((link) => (
+      <a href={link.href} data-game-link={link.id} aria-current={game === link.id ? "page" : undefined}>
+        <Icon name={link.icon} />
+        <span>{link.label}</span>
+      </a>
+    ))
+  }
 </nav>
 
 <script>

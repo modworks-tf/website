@@ -1,19 +1,12 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
-import Modal from "../../components/Modal.astro";
-import { mods, discord, others, type Tf2Link } from "../../data/tf2";
+import LinkCard from "../../components/LinkCard.astro";
+import { mods, others } from "../../data/tf2";
 
 const tabs = [
   { id: "mods", label: "Mods", count: mods.length },
-  { id: "discord", label: "Discord", count: discord.length },
   { id: "other", label: "Other tools", count: others.length },
-];
-
-/** The Discord and Other tools tabs: a card per link, or per modal. */
-const linkPanels: { id: string; items: Tf2Link[] }[] = [
-  { id: "discord", items: discord },
-  { id: "other", items: others },
 ];
 ---
 
@@ -21,9 +14,7 @@ const linkPanels: { id: string; items: Tf2Link[] }[] = [
   game="tf2"
   title="TF2 mods · modworks.tf"
   description="A hand-picked set of Team Fortress 2 mods and tools: HUDs, crosshairs, textures, viewmodels and more.">
-  <div class="backdrop"></div>
-
-  <section class="hero tf2-hero">
+  <section class="hero hero-plain">
     <div class="container">
       <div>
         <span class="eyebrow">Team Fortress 2</span>
@@ -85,55 +76,16 @@ const linkPanels: { id: string; items: Tf2Link[] }[] = [
       </div>
     </div>
 
-    {
-      linkPanels.map((panel) => (
-        <div class="store-panel" id={`store-${panel.id}`} role="tabpanel" data-store-panel={panel.id} hidden>
-          <div class="grid grid-3">
-            {panel.items.map((item) => (
-              <article class="card mod">
-                <div class="mod-top">
-                  <span class="mod-initial" aria-hidden="true">
-                    {item.name.charAt(0).toUpperCase()}
-                  </span>
-                  <div class="mod-tags">
-                    <span class="tag">{item.tag}</span>
-                  </div>
-                </div>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                {item.modal ? (
-                  <button class="btn btn-ghost btn-sm mod-action" data-open-modal={item.modal}>
-                    <Icon name="code" />
-                    {item.action}
-                  </button>
-                ) : (
-                  <a class="btn btn-ghost btn-sm mod-action" href={item.href} target="_blank" rel="noopener">
-                    {item.action}
-                    <Icon name="external" />
-                  </a>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      ))
-    }
+    <div class="store-panel" id="store-other" role="tabpanel" data-store-panel="other" hidden>
+      <div class="grid grid-3">
+        {others.map((item) => <LinkCard item={item} />)}
+      </div>
+    </div>
   </section>
-
-  <Modal id="customcss-modal" title="Discord CSS snippets">
-    <p>
-      A set of snippets that restyle the Discord client. Some are for general use, others are tuned to how I like it.
-      Each folder explains its snippet.
-    </p>
-    <h3>My settings</h3>
-    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/import.css);</code></div>
-    <h3>Compact mode</h3>
-    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/compactImport.css);</code></div>
-  </Modal>
 </Base>
 
 <script>
-  // Tabs, kept in the address bar so a link can open one: /tf2#discord. Old
+  // Tabs, kept in the address bar so a link can open one: /tf2#other. Old
   // links from the previous site used #Mods, #Other and #Contact; contact now
   // has its own page.
   function setupStore() {
@@ -165,18 +117,6 @@ const linkPanels: { id: string; items: Tf2Link[] }[] = [
 </script>
 
 <style>
-  .tf2-hero {
-    padding-bottom: 32px;
-  }
-
-  .tf2-hero .container {
-    grid-template-columns: 1fr;
-  }
-
-  .tf2-hero h1 {
-    max-width: 760px;
-  }
-
   .store {
     position: relative;
     z-index: 1;
@@ -229,61 +169,5 @@ const linkPanels: { id: string; items: Tf2Link[] }[] = [
   .store-tab[aria-selected="true"] span {
     background: var(--accent);
     color: var(--accent-ink);
-  }
-
-  .mod {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mod-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .mod-initial {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 19px;
-    background: linear-gradient(140deg, var(--accent-soft), transparent), var(--surface-3);
-    border: 1px solid var(--line-strong);
-    color: var(--accent-strong);
-  }
-
-  .mod-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: flex-end;
-  }
-
-  .mod p {
-    flex: 1;
-  }
-
-  .mod-meta {
-    display: flex;
-    gap: 14px;
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--faint);
-  }
-
-  .mod-meta span + span::before {
-    content: "·";
-    margin-right: 14px;
-  }
-
-  .mod-action {
-    margin-top: 18px;
-    align-self: flex-start;
   }
 </style>

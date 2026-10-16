@@ -1,0 +1,49 @@
+---
+import Base from "../../layouts/Base.astro";
+import LinkCard from "../../components/LinkCard.astro";
+import Modal from "../../components/Modal.astro";
+import { tools } from "../../data/discord";
+---
+
+<Base
+  game="discord"
+  title="Discord mods · modworks.tf"
+  description="Discord client mods and themes worth trying: Vencord, BetterDiscord, OpenAsar and a set of CSS snippets.">
+  <section class="hero hero-plain">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Discord</span>
+        <h1>Discord, <span class="soft">the way you like it.</span></h1>
+        <p class="lede">
+          Client mods that add plugins and themes, a faster desktop client, and the CSS snippets this site's creator
+          uses. Each one comes straight from its own site.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container tools">
+    <div class="grid grid-3">
+      {tools.map((item) => <LinkCard item={item} />)}
+    </div>
+  </section>
+
+  <Modal id="customcss-modal" title="Discord CSS snippets">
+    <p>
+      A set of snippets that restyle the Discord client. Some are for general use, others are tuned to how I like it.
+      Each folder explains its snippet.
+    </p>
+    <h3>My settings</h3>
+    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/import.css);</code></div>
+    <h3>Compact mode</h3>
+    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/compactImport.css);</code></div>
+  </Modal>
+</Base>
+
+<style>
+  .tools {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 96px;
+  }
+</style>

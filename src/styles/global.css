@@ -2,7 +2,8 @@
 
 /* ---------------------------------------------------------------------------
    Tokens. Each game sets its own accent on <html data-game="…">, so the same
-   components read as Cryptic's green (its menu's default, #36865B) or TF2's orange.
+   components read as Cryptic's green (its menu's default, #36865B), TF2's
+   orange or Discord's blurple.
 --------------------------------------------------------------------------- */
 :root {
   --bg: #0b0b0d;
@@ -41,6 +42,14 @@ html[data-game="tf2"] {
   --accent-ink: #1b1007;
   --accent-soft: rgb(232 137 60 / 14%);
   --accent-glow: rgb(232 137 60 / 32%);
+}
+
+html[data-game="discord"] {
+  --accent: #5865f2;
+  --accent-strong: #8b95f8;
+  --accent-ink: #ffffff;
+  --accent-soft: rgb(88 101 242 / 16%);
+  --accent-glow: rgb(88 101 242 / 36%);
 }
 
 html[data-game="home"] {
@@ -125,18 +134,29 @@ main {
   flex: 1;
 }
 
-/* A faint grid and a glow in the accent, behind the top of each page. */
+/* The glow's colour as a typed property, so it can be faded from one
+   accent to the next (a gradient itself cannot be). */
+@property --backdrop-glow {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+/* A faint grid and a glow in the accent, behind the top of each page. It is
+   kept across page changes (Base.astro), so switching sections fades the
+   glow to the new colour while the grid stays put. */
 .backdrop {
   position: absolute;
   inset: 0 0 auto 0;
   height: 900px;
   pointer-events: none;
   z-index: 0;
+  --backdrop-glow: var(--accent-glow);
   background:
-    radial-gradient(60% 50% at 70% 10%, var(--accent-glow), transparent 70%),
+    radial-gradient(60% 50% at 70% 10%, var(--backdrop-glow), transparent 70%),
     radial-gradient(40% 40% at 10% 0%, rgb(255 255 255 / 4%), transparent 70%);
   mask-image: linear-gradient(to bottom, black 40%, transparent);
-  transition: background 0.4s ease;
+  transition: --backdrop-glow 0.7s ease;
 }
 
 .backdrop::after {
@@ -218,19 +238,23 @@ main {
   background: rgb(255 255 255 / 5%);
 }
 
+.nav a[aria-current="page"] {
+  color: var(--text);
+}
+
 .header-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* The game switch: two links in a pill, with an indicator that slides to the
-   one you are on. It lives in the header, which is kept across page changes,
-   so the slide plays as the page swaps. */
+/* The switch: three links in a pill (TF2, Minecraft, Discord), with an
+   indicator that slides to the one you are on. The switch is kept across page
+   changes, so the slide plays as the page swaps. */
 .game-switch {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   padding: 4px;
   border-radius: 999px;
   background: var(--surface);
@@ -271,7 +295,7 @@ main {
   top: 4px;
   bottom: 4px;
   left: 4px;
-  width: calc(50% - 4px);
+  width: calc((100% - 8px) / 3);
   border-radius: 999px;
   background: var(--accent);
   box-shadow: 0 6px 20px -6px var(--accent-glow);
@@ -281,8 +305,12 @@ main {
     opacity 0.3s ease;
 }
 
-.game-switch[data-active="tf2"] .indicator {
+.game-switch[data-active="cryptic"] .indicator {
   transform: translateX(100%);
+}
+
+.game-switch[data-active="discord"] .indicator {
+  transform: translateX(200%);
 }
 
 .game-switch[data-active="none"] .indicator {
@@ -594,6 +622,77 @@ main {
 }
 
 /* ---------------------------------------------------------------------------
+   Mod and link cards (TF2 and Discord), and the plain hero above them
+--------------------------------------------------------------------------- */
+.hero-plain {
+  padding-bottom: 32px;
+}
+
+.hero-plain .container {
+  grid-template-columns: 1fr;
+}
+
+.hero-plain h1 {
+  max-width: 760px;
+}
+
+.mod {
+  display: flex;
+  flex-direction: column;
+}
+
+.mod-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mod-initial {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  background: linear-gradient(140deg, var(--accent-soft), transparent), var(--surface-3);
+  border: 1px solid var(--line-strong);
+  color: var(--accent-strong);
+}
+
+.mod-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.mod p {
+  flex: 1;
+}
+
+.mod-meta {
+  display: flex;
+  gap: 14px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.mod-meta span + span::before {
+  content: "·";
+  margin-right: 14px;
+}
+
+.mod-action {
+  margin-top: 18px;
+  align-self: flex-start;
+}
+
+/* ---------------------------------------------------------------------------
    Footer
 --------------------------------------------------------------------------- */
 .site-footer {
@@ -731,29 +830,6 @@ body.modal-open {
 /* ---------------------------------------------------------------------------
    Responsive
 --------------------------------------------------------------------------- */
-/* Contact and Discord shrink to their icons before anything runs out of room:
-   on a narrow desktop while the page links are in the header too, and on a
-   phone. (The page links hide below 980px.) */
-@media (min-width: 981px) and (max-width: 1180px) {
-  .has-nav .btn-collapse .btn-label {
-    display: none;
-  }
-
-  .has-nav .btn-collapse {
-    padding: 7px 9px;
-  }
-}
-
-@media (max-width: 760px) {
-  .btn-collapse .btn-label {
-    display: none;
-  }
-
-  .btn-collapse {
-    padding: 7px 9px;
-  }
-}
-
 @media (max-width: 980px) {
   .hero .container {
     grid-template-columns: 1fr;
@@ -762,14 +838,6 @@ body.modal-open {
   .grid-3,
   .grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .nav {
-    display: none;
-  }
-
-  .header-actions {
-    margin-left: auto;
   }
 }
 
@@ -783,73 +851,36 @@ body.modal-open {
     padding: 64px 0;
   }
 
-  /* Room for the logo, the switch and the two icon buttons; the download
-     button is in the page itself. */
+  /* Room for the logo, the switch, Contact and the Discord icon. */
   .site-header .container {
     gap: 12px;
   }
 
   .brand-name,
-  .header-cta {
+  .btn-collapse .btn-label {
     display: none;
+  }
+
+  .btn-collapse {
+    padding: 7px 9px;
   }
 
   .game-switch a span {
     display: none;
   }
-}
 
-/* ---------------------------------------------------------------------------
-   Page changes. Between Cryptic and TF2 the page slides the way the switch
-   goes (Base.astro sets data-slide); everything else keeps Astro's fade.
---------------------------------------------------------------------------- */
-@keyframes page-out-left {
-  to {
-    transform: translateX(-80px);
-    opacity: 0;
+  .game-switch a {
+    padding: 6px 11px;
+  }
+
+  .nav a {
+    padding: 7px 8px;
   }
 }
 
-@keyframes page-in-left {
-  from {
-    transform: translateX(80px);
-    opacity: 0;
-  }
-}
-
-@keyframes page-out-right {
-  to {
-    transform: translateX(80px);
-    opacity: 0;
-  }
-}
-
-@keyframes page-in-right {
-  from {
-    transform: translateX(-80px);
-    opacity: 0;
-  }
-}
-
-html[data-slide="left"]::view-transition-old(page) {
-  animation: page-out-left 0.28s cubic-bezier(0.4, 0, 1, 1) both !important;
-}
-
-html[data-slide="left"]::view-transition-new(page) {
-  animation: page-in-left 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s both !important;
-}
-
-html[data-slide="right"]::view-transition-old(page) {
-  animation: page-out-right 0.28s cubic-bezier(0.4, 0, 1, 1) both !important;
-}
-
-html[data-slide="right"]::view-transition-new(page) {
-  animation: page-in-right 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s both !important;
-}
-
-/* Reduced motion: nothing moves the page about (no page slide or fade, no
-   tilt, see tilt.ts), but small UI changes such as the game switch sliding
-   across or a colour fading still play. */
+/* Reduced motion: no tilt (see tilt.ts) and no page transitions, but small
+   UI changes such as the switch sliding across or the glow changing colour
+   still play. */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),

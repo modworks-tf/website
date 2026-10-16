@@ -6,72 +6,49 @@ import Icon from "../components/Icon.astro";
 import Email from "../components/Email.astro";
 import { DISCORD } from "../data/contact";
 
+export type Section = "tf2" | "cryptic" | "discord" | "home";
+
 interface Props {
-  game: "cryptic" | "tf2" | "home";
+  game: Section;
   title?: string;
   description?: string;
   image?: string;
-  /** Links for the middle of the header: label and href. */
-  nav?: { label: string; href: string }[];
-  /** The header's main button. */
-  cta?: { label: string; href: string; external?: boolean };
 }
 
-const { game, title, description, image, nav = [], cta } = Astro.props;
+const { game, title, description, image } = Astro.props;
 const onContact = Astro.url.pathname.replace(/\/$/, "") === "/contact";
 ---
 
 <!doctype html>
-<html lang="en" data-game={game}>
+<!-- Pages swap without an animation of their own: only the header's switch
+     slides, and the backdrop's glow fades to the new colour. -->
+<html lang="en" data-game={game} transition:animate="none">
   <head>
     <CommonHead title={title} description={description} image={image} />
   </head>
   <body>
-    <!-- Not part of the page's fade, so the game switch can be seen sliding. -->
-    <header
-      class:list={["site-header", { "has-nav": nav.length > 0 }]}
-      transition:name="site-header"
-      transition:animate="none">
+    <!-- Kept across page changes, so its glow can fade from one colour to the next. -->
+    <div class="backdrop" transition:persist="backdrop"></div>
+
+    <header class="site-header">
       <div class="container">
         <a class="brand" href="/">
           <span class="brand-mark"><img src="/favicon.png" alt="" width="20" height="20" /></span>
           <span class="brand-name">modworks</span>
         </a>
         <GameSwitch game={game} />
-        {
-          nav.length > 0 && (
-            <nav class="nav" aria-label="Page">
-              {nav.map((item) => (
-                <a href={item.href}>{item.label}</a>
-              ))}
-            </nav>
-          )
-        }
-        <div class="header-actions" style={nav.length === 0 ? "margin-left:auto" : undefined}>
-          <a class="btn btn-ghost btn-sm btn-collapse" href="/contact" aria-label="Contact" aria-current={onContact ? "page" : undefined}>
-            <Icon name="mail" /><span class="btn-label">Contact</span>
-          </a>
+        <nav class="nav" aria-label="Site">
+          <a href="/contact" aria-current={onContact ? "page" : undefined}>Contact</a>
+        </nav>
+        <div class="header-actions">
           <a class="btn btn-ghost btn-sm btn-collapse" href={DISCORD} target="_blank" rel="noopener" aria-label="Discord">
             <Icon name="chat" /><span class="btn-label">Discord</span>
           </a>
-          {
-            cta && (
-              <a
-                class="btn btn-primary btn-sm header-cta"
-                href={cta.href}
-                target={cta.external ? "_blank" : undefined}
-                rel={cta.external ? "noopener" : undefined}
-                data-latest-download={game === "cryptic" ? "" : undefined}>
-                <Icon name="download" />
-                {cta.label}
-              </a>
-            )
-          }
         </div>
       </div>
     </header>
 
-    <main transition:name="page" transition:animate="fade">
+    <main>
       <slot />
     </main>
 
@@ -79,10 +56,8 @@ const onContact = Astro.url.pathname.replace(/\/$/, "") === "/contact";
       <div class="container">
         <span>© {new Date().getFullYear()} modworks.tf · made by iMicro</span>
         <nav aria-label="Footer">
-          <a href="/cryptic">Cryptic</a>
-          <a href="/tf2">TF2 mods</a>
           <a href="/contact">Contact</a>
-          <a href="https://github.com/WhyiMicro/cryptic" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/WhyiMicro" target="_blank" rel="noopener">GitHub</a>
           <a href={DISCORD} target="_blank" rel="noopener">Discord</a>
           <Email />
         </nav>
@@ -90,27 +65,3 @@ const onContact = Astro.url.pathname.replace(/\/$/, "") === "/contact";
     </footer>
   </body>
 </html>
-
-<script>
-  // Going between Cryptic and TF2, the page slides the way the switch does:
-  // Minecraft is on the left, so going to TF2 moves the page left. Anything
-  // else keeps the plain fade. The new page's <html> replaces the old one's
-  // attributes in the swap, so the direction is put back on it after the swap,
-  // before the animation starts.
-  const ORDER: Record<string, number> = { cryptic: 0, tf2: 1 };
-  const gameOf = (url: URL) => {
-    const first = url.pathname.split("/")[1] ?? "";
-    return first in ORDER ? first : null;
-  };
-  let slide = "";
-
-  document.addEventListener("astro:before-preparation", (event) => {
-    const from = gameOf(event.from);
-    const to = gameOf(event.to);
-    slide = from && to && from !== to ? (ORDER[to] > ORDER[from] ? "left" : "right") : "";
-  });
-  document.addEventListener("astro:after-swap", () => {
-    if (slide) document.documentElement.dataset.slide = slide;
-    else delete document.documentElement.dataset.slide;
-  });
-</script>
