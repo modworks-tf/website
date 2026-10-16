@@ -12,7 +12,7 @@ export interface Tf2Mod {
 export const mods: Tf2Mod[] = [
   {
     name: "lilith",
-    description: "A customizable, useful UI in TF2, toggled with Right Shift.",
+    description: "A customizable, useful UI in TF2.",
     creator: "iMicro",
     version: "1.4.1",
     href: "https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk",
@@ -21,16 +21,16 @@ export const mods: Tf2Mod[] = [
     name: "Venom Crosshairs",
     description: "A tool to create highly customizable, weapon-specific crosshairs.",
     creator: "hbivnm",
-    version: "beta 17.0",
-    href: "https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta17/VenomCrosshairs_b17.0.zip",
+    version: "beta 18.0",
+    href: "https://github.com/hbivnm/Venom-Crosshairs/releases/download/beta18/VenomCrosshairs_b18.0.zip",
     tags: ["tool"],
   },
   {
     name: "Flat Textures",
-    description: "Overhauls TF2's textures with smooth new ones.",
-    creator: "flewvar",
+    description: "Overhauls TF2's textures to be a flat color.",
+    creator: "flewvar, JarateKing & Eduardobiscoito100",
     version: "2.5",
-    href: "https://gamebanana.com/dl/677961",
+    href: "https://gamebanana.com/dl/1658611",
   },
   {
     name: "No Hats",
