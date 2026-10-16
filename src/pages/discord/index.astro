@@ -2,7 +2,10 @@
 import Base from "../../layouts/Base.astro";
 import LinkCard from "../../components/LinkCard.astro";
 import Modal from "../../components/Modal.astro";
+import Icon from "../../components/Icon.astro";
 import { tools } from "../../data/discord";
+
+const SNIPPET = "@import url(//whyimicro.github.io/css-snippets/import.css);";
 ---
 
 <Base
@@ -34,13 +37,56 @@ import { tools } from "../../data/discord";
       Each folder explains its snippet.
     </p>
     <h3>My settings</h3>
-    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/import.css);</code></div>
-    <h3>Compact mode</h3>
-    <div class="code"><code>@import url(//whyimicro.github.io/css-snippets/compactImport.css);</code></div>
+    <div class="code">
+      <code>{SNIPPET}</code>
+      <button class="btn btn-ghost btn-sm copy-button" type="button" data-copy={SNIPPET}>
+        <Icon name="copy" /><span>Copy</span>
+      </button>
+    </div>
   </Modal>
 </Base>
 
+<script>
+  // Copies the snippet, and says so on the button for a moment.
+  function setupCopy() {
+    document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
+      const label = button.querySelector("span");
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(button.dataset.copy ?? "");
+          if (label) label.textContent = "Copied";
+        } catch {
+          // No clipboard access (an older browser, or not allowed): select the
+          // snippet and try the old copy command, or leave it selected to copy by hand.
+          const code = button.parentElement?.querySelector("code");
+          if (code) getSelection()?.selectAllChildren(code);
+          const copied = code ? document.execCommand("copy") : false;
+          if (label) label.textContent = copied ? "Copied" : "Press Ctrl+C";
+        }
+        setTimeout(() => {
+          if (label) label.textContent = "Copy";
+        }, 1600);
+      });
+    });
+  }
+  document.addEventListener("astro:page-load", setupCopy);
+</script>
+
 <style>
+  /* The snippet scrolls on a narrow screen; the button stays in view. */
+  .code {
+    overflow: hidden;
+  }
+
+  .code code {
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .copy-button {
+    flex: none;
+  }
+
   .tools {
     position: relative;
     z-index: 1;
