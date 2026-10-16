@@ -73,18 +73,35 @@ const SNIPPET = "@import url(//whyimicro.github.io/css-snippets/import.css);";
 </script>
 
 <style>
-  /* The snippet scrolls on a narrow screen; the button stays in view. */
+  /* Wide enough for the snippet on one line; on a narrower screen it wraps
+     rather than scrolling. (Global: the modal is drawn by Modal.astro.) */
+  :global(#customcss-modal .modal) {
+    width: min(680px, 100%);
+  }
+
   .code {
-    overflow: hidden;
+    overflow: visible;
   }
 
   .code code {
     min-width: 0;
-    overflow-x: auto;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .copy-button {
     flex: none;
+  }
+
+  /* On a phone the button goes under the snippet, which then has the width. */
+  @media (max-width: 560px) {
+    .code {
+      flex-wrap: wrap;
+    }
+
+    .code code {
+      flex-basis: 100%;
+    }
   }
 
   .tools {
