@@ -63,7 +63,7 @@ const latest = (await getReleases(1))[0];
         <a class="game game-discord" href="/discord" data-tilt="2">
           <div class="game-art chip-art" aria-hidden="true">
             {
-              tools.map((tool) => (
+              tools.slice(0, 4).map((tool) => (
                 <div class="chip">
                   <span>{tool.name.charAt(0).toUpperCase()}</span>
                   {tool.name}
@@ -76,9 +76,9 @@ const latest = (await getReleases(1))[0];
               <Icon name="chat" />Discord
             </div>
             <h2>Discord mods</h2>
-            <p>Client mods with plugins and themes, a faster desktop app, and CSS snippets to restyle it.</p>
+            <p>Client mods with plugins and themes, a faster desktop app, CSS snippets, and an equalizer for your sound.</p>
             <span class="game-link">
-              {tools.length} mods and themes
+              {tools.length} mods and tools
               <Icon name="arrowRight" />
             </span>
           </div>

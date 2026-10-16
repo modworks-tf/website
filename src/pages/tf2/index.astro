@@ -1,13 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
-import LinkCard from "../../components/LinkCard.astro";
-import { mods, others } from "../../data/tf2";
-
-const tabs = [
-  { id: "mods", label: "Mods", count: mods.length },
-  { id: "other", label: "Other tools", count: others.length },
-];
+import { mods } from "../../data/tf2";
 ---
 
 <Base
@@ -28,146 +22,54 @@ const tabs = [
   </section>
 
   <section class="container store">
-    <div class="store-tabs" role="tablist" aria-label="Sections">
+    <div class="grid grid-3">
       {
-        tabs.map((tab, index) => (
-          <button
-            class="store-tab"
-            role="tab"
-            data-store-tab={tab.id}
-            aria-controls={`store-${tab.id}`}
-            aria-selected={index === 0 ? "true" : "false"}>
-            {tab.label}
-            <span>{tab.count}</span>
-          </button>
+        mods.map((mod) => (
+          <article class="card mod">
+            <div class="mod-top">
+              <span class="mod-initial" aria-hidden="true">
+                {mod.name.charAt(0).toUpperCase()}
+              </span>
+              <div class="mod-tags">
+                {mod.tags?.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <h3>{mod.name}</h3>
+            <p>{mod.description}</p>
+            <div class="mod-meta">
+              <span>by {mod.creator}</span>
+              <span>{mod.version}</span>
+            </div>
+            <a class="btn btn-primary btn-sm mod-action" href={mod.href} download rel="noopener">
+              <Icon name="download" />
+              Download
+            </a>
+          </article>
         ))
       }
-    </div>
-
-    <div class="store-panel" id="store-mods" role="tabpanel" data-store-panel="mods">
-      <div class="grid grid-3">
-        {
-          mods.map((mod) => (
-            <article class="card mod">
-              <div class="mod-top">
-                <span class="mod-initial" aria-hidden="true">
-                  {mod.name.charAt(0).toUpperCase()}
-                </span>
-                <div class="mod-tags">
-                  {mod.private && <span class="tag tag-accent">Private</span>}
-                  {mod.tags?.map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <h3>{mod.name}</h3>
-              <p>{mod.description}</p>
-              <div class="mod-meta">
-                <span>by {mod.creator}</span>
-                <span>{mod.version}</span>
-              </div>
-              <a class="btn btn-primary btn-sm mod-action" href={mod.href} download rel="noopener">
-                <Icon name="download" />
-                Download
-              </a>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="store-panel" id="store-other" role="tabpanel" data-store-panel="other" hidden>
-      <div class="grid grid-3">
-        {others.map((item) => <LinkCard item={item} />)}
-      </div>
     </div>
   </section>
 </Base>
 
 <script>
-  // Tabs, kept in the address bar so a link can open one: /tf2#other. Old
-  // links from the previous site used #Mods, #Other and #Contact; contact now
-  // has its own page.
-  function setupStore() {
-    const tabs = document.querySelectorAll<HTMLButtonElement>("[data-store-tab]");
-    if (!tabs.length) return;
-    if (location.hash.toLowerCase() === "#contact") {
-      location.replace("/contact");
-      return;
-    }
-
-    function show(id: string, updateHash: boolean) {
-      const known = Array.from(tabs).some((tab) => tab.dataset.storeTab === id);
-      if (!known) return;
-      tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.storeTab === id)));
-      document.querySelectorAll<HTMLElement>("[data-store-panel]").forEach((panel) => {
-        panel.hidden = panel.dataset.storePanel !== id;
-      });
-      if (updateHash) history.replaceState(null, "", `#${id}`);
-    }
-
-    tabs.forEach((tab) => tab.addEventListener("click", () => show(tab.dataset.storeTab!, true)));
-
-    const fromHash = () => show(location.hash.slice(1).toLowerCase(), false);
-    fromHash();
-    window.addEventListener("hashchange", fromHash);
-    document.addEventListener("astro:before-swap", () => window.removeEventListener("hashchange", fromHash), { once: true });
+  // Links from the old site pointed at tabs: #Contact now has its own page,
+  // and #Other held tools that moved to the Discord page.
+  function followOldLinks() {
+    const hash = location.hash.toLowerCase();
+    if (hash === "#contact") location.replace("/contact");
+    else if (hash === "#other") location.replace("/discord");
   }
-  document.addEventListener("astro:page-load", setupStore);
+  document.addEventListener("astro:page-load", () => {
+    if (location.pathname.startsWith("/tf2")) followOldLinks();
+  });
 </script>
 
 <style>
   .store {
     position: relative;
     z-index: 1;
-    scroll-margin-top: calc(var(--header-h) + 24px);
-  }
-
-  .store-tabs {
-    display: inline-flex;
-    gap: 4px;
-    padding: 4px;
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    margin-bottom: 24px;
-  }
-
-  .store-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 9px;
-    border: 0;
-    background: transparent;
-    color: var(--muted);
-    font: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .store-tab span {
-    font-size: 12px;
-    padding: 1px 7px;
-    border-radius: 999px;
-    background: var(--surface-3);
-    color: var(--faint);
-  }
-
-  .store-tab:hover {
-    color: var(--text);
-  }
-
-  .store-tab[aria-selected="true"] {
-    background: var(--surface-3);
-    color: var(--text);
-  }
-
-  .store-tab[aria-selected="true"] span {
-    background: var(--accent);
-    color: var(--accent-ink);
+    padding-bottom: 96px;
   }
 </style>

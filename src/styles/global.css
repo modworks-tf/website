@@ -472,11 +472,6 @@ html[data-game="discord"] {
   white-space: nowrap;
 }
 
-.tag-accent {
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-  border-color: transparent;
-}
 
 
 .eyebrow {

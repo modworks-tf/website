@@ -1,4 +1,4 @@
-/** The Discord side: client mods and themes. */
+/** The Discord side: client mods and themes, and a system-wide equalizer. */
 
 import type { ToolLink } from "./types";
 
@@ -30,5 +30,12 @@ export const tools: ToolLink[] = [
     tag: "themes",
     modal: "customcss-modal",
     action: "Snippets",
+  },
+  {
+    name: "Equalizer APO",
+    description: "A parametric and graphic equalizer for Windows.",
+    href: "https://sourceforge.net/projects/equalizerapo/",
+    tag: "audio",
+    action: "Open",
   },
 ];

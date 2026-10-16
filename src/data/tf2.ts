@@ -1,6 +1,4 @@
-/** The TF2 side: mods and other tools. */
-
-import type { ToolLink } from "./types";
+/** The TF2 side: the mods. */
 
 export interface Tf2Mod {
   name: string;
@@ -9,7 +7,6 @@ export interface Tf2Mod {
   version: string;
   href: string;
   tags?: string[];
-  private?: boolean;
 }
 
 export const mods: Tf2Mod[] = [
@@ -19,7 +16,6 @@ export const mods: Tf2Mod[] = [
     creator: "iMicro",
     version: "1.4.1",
     href: "https://github.com/WhyiMicro/lilith/releases/download/1.4.1/lilith.vpk",
-    private: true,
   },
   {
     name: "Venom Crosshairs",
@@ -50,15 +46,5 @@ export const mods: Tf2Mod[] = [
     version: "1.4.1",
     href: "https://github.com/Yttrium-tYcLief/CompVMInstaller/releases/download/v1.4.1/CompVMInstaller_1.4.1.exe",
     tags: ["tool"],
-  },
-];
-
-export const others: ToolLink[] = [
-  {
-    name: "Equalizer APO",
-    description: "A parametric and graphic equalizer for Windows.",
-    href: "https://sourceforge.net/projects/equalizerapo/",
-    tag: "audio",
-    action: "Open",
   },
 ];
