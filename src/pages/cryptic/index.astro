@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
 import LatestRelease from "../../components/LatestRelease.astro";
-import { featureGroups, highlights, faq } from "../../data/cryptic";
+import { highlights, faq } from "../../data/cryptic";
 import { getReleases, formatDate, formatSize, RELEASES_URL } from "../../lib/releases";
 
 const releases = await getReleases(4);
@@ -109,61 +109,6 @@ const showcases = [
       }
     </div>
   </section>
-
-  <section class="section" id="features">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Features</span>
-        <h2>Built for the way you actually play</h2>
-        <p>Grouped the way the menu is. Every module can be switched off, and every setting says what it does.</p>
-      </div>
-
-      <div class="features">
-        <div class="feature-tabs" role="tablist" aria-label="Feature groups">
-          {
-            featureGroups.map((group, index) => (
-              <button
-                class="feature-tab"
-                role="tab"
-                id={`tab-${group.id}`}
-                aria-controls={`panel-${group.id}`}
-                aria-selected={index === 0 ? "true" : "false"}
-                data-feature-tab={group.id}>
-                <span class="icon-chip">
-                  <Icon name={group.icon} />
-                </span>
-                <span>
-                  <strong>{group.title}</strong>
-                  <small>{group.blurb}</small>
-                </span>
-              </button>
-            ))
-          }
-        </div>
-        <div class="feature-panels">
-          {
-            featureGroups.map((group, index) => (
-              <div
-                class="grid grid-3 feature-panel"
-                role="tabpanel"
-                id={`panel-${group.id}`}
-                aria-labelledby={`tab-${group.id}`}
-                hidden={index !== 0}>
-                {group.features.map((feature) => (
-                  <div class="card">
-                    <h3>{feature.name}</h3>
-                    <p>{feature.text}</p>
-                  </div>
-                ))}
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
 
   <section class="section">
     <div class="container showcases">
@@ -293,19 +238,6 @@ const showcases = [
 
 <script>
   import "../../scripts/tilt";
-
-  function setupFeatureTabs() {
-    const tabs = document.querySelectorAll<HTMLButtonElement>("[data-feature-tab]");
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((other) => other.setAttribute("aria-selected", String(other === tab)));
-        document.querySelectorAll<HTMLElement>(".feature-panel").forEach((panel) => {
-          panel.hidden = panel.id !== `panel-${tab.dataset.featureTab}`;
-        });
-      });
-    });
-  }
-  document.addEventListener("astro:page-load", setupFeatureTabs);
 </script>
 
 <style>
@@ -346,75 +278,6 @@ const showcases = [
   .stat span {
     color: var(--muted);
     font-size: 14px;
-  }
-
-  .features {
-    display: grid;
-    grid-template-columns: 300px minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  .feature-tabs {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    position: sticky;
-    top: calc(var(--header-h) + 24px);
-  }
-
-  .feature-tab {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-align: left;
-    padding: 12px 14px;
-    border-radius: var(--radius);
-    border: 1px solid transparent;
-    background: transparent;
-    color: var(--text);
-    font: inherit;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-
-  .feature-tab .icon-chip {
-    margin: 0;
-    flex: none;
-    background: var(--surface-2);
-    color: var(--muted);
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .feature-tab strong {
-    display: block;
-    font-weight: 600;
-    font-size: 15px;
-  }
-
-  .feature-tab small {
-    display: block;
-    color: var(--faint);
-    font-size: 13px;
-    line-height: 1.4;
-  }
-
-  .feature-tab:hover {
-    background: rgb(255 255 255 / 3%);
-  }
-
-  .feature-tab[aria-selected="true"] {
-    background: var(--surface);
-    border-color: var(--line-strong);
-  }
-
-  .feature-tab[aria-selected="true"] .icon-chip {
-    background: var(--accent-soft);
-    color: var(--accent-strong);
-  }
-
-  .feature-panel .card {
-    min-height: 132px;
   }
 
   .showcases {
@@ -619,24 +482,8 @@ const showcases = [
       --tilt-y: 0deg;
     }
 
-    .features,
     .showcase {
       grid-template-columns: 1fr;
-    }
-
-    .feature-tabs {
-      position: static;
-      flex-direction: row;
-      overflow-x: auto;
-      padding-bottom: 6px;
-    }
-
-    .feature-tab {
-      flex: none;
-    }
-
-    .feature-tab small {
-      display: none;
     }
 
     .showcase.flip > :first-child {
