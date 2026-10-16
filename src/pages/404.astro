@@ -1,1 +1,45 @@
-<p>404</p>
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<Base game="home" title="Not found · modworks.tf">
+  <div class="backdrop"></div>
+  <section class="lost">
+    <div class="container">
+      <span class="eyebrow">404</span>
+      <h1>This page doesn't exist.</h1>
+      <p>It may have moved. The mods are one click away.</p>
+      <div class="lost-actions">
+        <a class="btn btn-primary" href="/cryptic"><Icon name="cube" />Cryptic</a>
+        <a class="btn btn-ghost" href="/tf2"><Icon name="target" />TF2 mods</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    position: relative;
+    z-index: 1;
+    padding: 120px 0;
+    text-align: center;
+  }
+
+  .lost h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    margin-top: 14px;
+  }
+
+  .lost p {
+    margin-top: 14px;
+    color: var(--muted);
+  }
+
+  .lost-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

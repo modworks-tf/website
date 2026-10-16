@@ -1,0 +1,708 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import LatestRelease from "../../components/LatestRelease.astro";
+import { featureGroups, highlights, faq } from "../../data/cryptic";
+import { getReleases, formatDate, formatSize, RELEASES_URL } from "../../lib/releases";
+
+const releases = await getReleases(4);
+const latest = releases[0];
+const download = latest?.jarUrl ?? RELEASES_URL;
+
+// Release titles are often just the version again; keep only what they add.
+const releaseTitle = (name: string) =>
+  name
+    .replace(/^Cryptic\s+/, "")
+    .replace(/\s*\(Minecraft[^)]*\)/, "")
+    .replace(/^v?\d+(\.\d+)*(-[\d.]+)?\s*[:·—-]?\s*/, "");
+
+const nav = [
+  { label: "Features", href: "#features" },
+  { label: "Install", href: "#install" },
+  { label: "Changelog", href: "#changelog" },
+  { label: "FAQ", href: "#faq" },
+];
+
+const showcases = [
+  {
+    eyebrow: "The menu",
+    title: "Every setting, explained where it is",
+    text: "Cards for every module, a search that finds names and descriptions, and favourites pinned to their own tab. Open a module and each setting says what it does, right under it. Profiles, keybinds, sounds and your HUD all live in the same place.",
+    image: "/cryptic/module.webp",
+    alt: "Cryptic's settings page for Daily Rewards",
+    width: 980,
+    height: 660,
+  },
+  {
+    eyebrow: "Daily Rewards",
+    title: "Claim your daily reward without leaving the game",
+    text: "Talk to the Delivery Man and Hypixel's three cards open in game. Turn them over one at a time or all at once, see your streak, and claim the one you want. The rarest card glows.",
+    image: "/cryptic/reward.webp",
+    alt: "The daily reward picker with three cards",
+    width: 820,
+    height: 560,
+  },
+  {
+    eyebrow: "Notifications",
+    title: "Told what matters, then left alone",
+    text: "Cookie running low, all four tools found, a party invite you can accept with a key: Cryptic says it in a small notification that slides in, counts down, and gets out of the way.",
+    image: "/cryptic/toasts.webp",
+    alt: "Three Cryptic notifications stacked in the corner",
+    width: 308,
+    height: 222,
+  },
+];
+---
+
+<Base
+  game="cryptic"
+  title="Cryptic · a Hypixel SkyBlock mod for Minecraft 26.2"
+  description="Cryptic puts dungeon solvers, Floor 7 tools, Crystal Hollows helpers and a clean in-game menu into one Fabric mod for Hypixel SkyBlock."
+  image="/cryptic/menu.webp"
+  nav={nav}
+  cta={{ label: "Download", href: download }}>
+  <div class="backdrop"></div>
+
+  <section class="hero">
+    <div class="container">
+      <div>
+        {
+          latest ? (
+            <a class="pill" href="#changelog">
+              <b>v<span data-latest-version>{latest.version}</span></b>
+              What's new in Cryptic
+              <Icon name="arrowRight" size={14} />
+            </a>
+          ) : (
+            <span class="pill">
+              <b>New</b>Cryptic for Minecraft 26.2
+            </span>
+          )
+        }
+        <h1>
+          One mod for all of <span class="accent-text">SkyBlock</span>.
+        </h1>
+        <p class="lede">
+          Dungeon solvers, Floor 7 tools, Crystal Hollows helpers and the small things you use every session, in a single
+          Fabric mod with a menu that gets out of the way.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href={download} data-latest-download>
+            <Icon name="download" />Download Cryptic
+          </a>
+          <a class="btn btn-ghost btn-lg" href={RELEASES_URL} target="_blank" rel="noopener">
+            All releases<Icon name="arrowRight" />
+          </a>
+        </div>
+        <p class="hero-meta">
+          <span>Minecraft {latest?.minecraft ?? "26.2"}</span><span>Fabric</span><span>Java 25</span>
+          {latest?.jarSize && <span data-latest-size>{formatSize(latest.jarSize)}</span>}
+        </p>
+      </div>
+
+      <div class="shot-stage">
+        <div class="shot shot-tilted" style="position:relative">
+          <img src="/cryptic/menu.webp" alt="Cryptic's module menu" width="980" height="660" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="stats">
+      {
+        highlights.map((item) => (
+          <div class="stat">
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Features</span>
+        <h2>Built for the way you actually play</h2>
+        <p>Grouped the way the menu is. Every module can be switched off, and every setting says what it does.</p>
+      </div>
+
+      <div class="features">
+        <div class="feature-tabs" role="tablist" aria-label="Feature groups">
+          {
+            featureGroups.map((group, index) => (
+              <button
+                class="feature-tab"
+                role="tab"
+                id={`tab-${group.id}`}
+                aria-controls={`panel-${group.id}`}
+                aria-selected={index === 0 ? "true" : "false"}
+                data-feature-tab={group.id}>
+                <span class="icon-chip">
+                  <Icon name={group.icon} />
+                </span>
+                <span>
+                  <strong>{group.title}</strong>
+                  <small>{group.blurb}</small>
+                </span>
+              </button>
+            ))
+          }
+        </div>
+        <div class="feature-panels">
+          {
+            featureGroups.map((group, index) => (
+              <div
+                class="grid grid-3 feature-panel"
+                role="tabpanel"
+                id={`panel-${group.id}`}
+                aria-labelledby={`tab-${group.id}`}
+                hidden={index !== 0}>
+                {group.features.map((feature) => (
+                  <div class="card">
+                    <h3>{feature.name}</h3>
+                    <p>{feature.text}</p>
+                  </div>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="section">
+    <div class="container showcases">
+      {
+        showcases.map((item, index) => (
+          <div class:list={["showcase", { flip: index % 2 === 1 }]}>
+            <div>
+              <span class="eyebrow">{item.eyebrow}</span>
+              <h2>{item.title}</h2>
+              <p>{item.text}</p>
+            </div>
+            <div class="shot">
+              <img src={item.image} alt={item.alt} width={item.width} height={item.height} loading="lazy" />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="section" id="install">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Install</span>
+        <h2>Up and running in three steps</h2>
+        <p>Cryptic is a Fabric mod. If you already play with Fabric, you only need the last step.</p>
+      </div>
+      <ol class="steps">
+        <li class="card">
+          <span class="step-number">1</span>
+          <h3>Fabric for 26.2</h3>
+          <p>
+            Install <a href="https://fabricmc.net/use/" target="_blank" rel="noopener">Fabric Loader</a> 0.19.5 or newer
+            for Minecraft 26.2, or make a Fabric instance in Prism or Modrinth.
+          </p>
+        </li>
+        <li class="card">
+          <span class="step-number">2</span>
+          <h3>Two libraries</h3>
+          <p>
+            Add <a href="https://modrinth.com/mod/fabric-api" target="_blank" rel="noopener">Fabric API</a> and
+            <a href="https://modrinth.com/mod/fabric-language-kotlin" target="_blank" rel="noopener">Fabric Language Kotlin</a>
+            to your mods folder. Cryptic needs Java 25.
+          </p>
+        </li>
+        <li class="card">
+          <span class="step-number">3</span>
+          <h3>Drop in Cryptic</h3>
+          <p>
+            Put <a href={download} data-latest-download>the Cryptic jar</a> in the same folder and start the game. Right
+            Shift opens the menu.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {
+    releases.length > 0 && (
+      <>
+        <hr class="divider" />
+        <section class="section" id="changelog">
+          <div class="container narrow">
+            <div class="section-head">
+              <span class="eyebrow">Changelog</span>
+              <h2>What's new</h2>
+              <p>
+                The latest releases, straight from GitHub.{" "}
+                <a href={RELEASES_URL} target="_blank" rel="noopener">
+                  See them all
+                </a>.
+              </p>
+            </div>
+            <div class="releases">
+              {releases.map((release, index) => (
+                <details class="release card" open={index === 0}>
+                  <summary>
+                    <span class="release-version">v{release.version}</span>
+                    {releaseTitle(release.name) && <span class="release-name">{releaseTitle(release.name)}</span>}
+                    <span class="release-date">{formatDate(release.date)}</span>
+                    <Icon name="chevronDown" size={18} />
+                  </summary>
+                  <div class="release-body" set:html={release.html} />
+                  {release.jarUrl && (
+                    <a class="btn btn-ghost btn-sm" href={release.jarUrl}>
+                      <Icon name="download" />
+                      {release.jarName}
+                    </a>
+                  )}
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  <hr class="divider" />
+
+  <section class="section" id="faq">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions people ask</h2>
+      </div>
+      <div class="faq">
+        {
+          faq.map((item) => (
+            <details class="card">
+              <summary>
+                {item.q}
+                <Icon name="chevronDown" size={18} />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="cta-band">
+      <div>
+        <h2>Ready for your next run?</h2>
+        <p>Free, and it keeps itself up to date.</p>
+      </div>
+      <a class="btn btn-primary btn-lg" href={download} data-latest-download>
+        <Icon name="download" />Download Cryptic
+      </a>
+    </div>
+  </section>
+
+  <LatestRelease />
+</Base>
+
+<script>
+  function setupFeatureTabs() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>("[data-feature-tab]");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((other) => other.setAttribute("aria-selected", String(other === tab)));
+        document.querySelectorAll<HTMLElement>(".feature-panel").forEach((panel) => {
+          panel.hidden = panel.id !== `panel-${tab.dataset.featureTab}`;
+        });
+      });
+    });
+  }
+  document.addEventListener("astro:page-load", setupFeatureTabs);
+</script>
+
+<style>
+  .accent-text {
+    background: linear-gradient(120deg, var(--accent-strong), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stats {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+    overflow: hidden;
+  }
+
+  .stat {
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat + .stat {
+    border-left: 1px solid var(--line);
+  }
+
+  .stat strong {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+
+  .stat span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .feature-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+
+  .feature-tab {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .feature-tab .icon-chip {
+    margin: 0;
+    flex: none;
+    background: var(--surface-2);
+    color: var(--muted);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .feature-tab strong {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .feature-tab small {
+    display: block;
+    color: var(--faint);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .feature-tab:hover {
+    background: rgb(255 255 255 / 3%);
+  }
+
+  .feature-tab[aria-selected="true"] {
+    background: var(--surface);
+    border-color: var(--line-strong);
+  }
+
+  .feature-tab[aria-selected="true"] .icon-chip {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+
+  .feature-panel .card {
+    min-height: 132px;
+  }
+
+  .showcases {
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+
+  .showcase {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 56px;
+    align-items: center;
+  }
+
+  .showcase.flip > :first-child {
+    order: 2;
+  }
+
+  .showcase h2 {
+    font-size: clamp(26px, 3.2vw, 36px);
+    margin-top: 10px;
+  }
+
+  .showcase p {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 17px;
+  }
+
+  .showcase .shot {
+    justify-self: center;
+    width: 100%;
+  }
+
+  .showcase:last-child .shot {
+    max-width: 420px;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .step-number {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .steps a {
+    color: var(--accent-strong);
+  }
+
+  .narrow {
+    max-width: 860px;
+  }
+
+  .releases,
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  details.card {
+    padding: 0;
+  }
+
+  details summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details summary :global(svg) {
+    margin-left: auto;
+    flex: none;
+    color: var(--faint);
+    transition: transform 0.2s ease;
+  }
+
+  details[open] summary :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .faq details p {
+    padding: 0 22px 20px;
+    margin: 0;
+  }
+
+  .release-version {
+    font-family: var(--font-display);
+    color: var(--accent-strong);
+  }
+
+  .release-name {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .release-date {
+    color: var(--faint);
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: auto;
+  }
+
+  details summary .release-date + :global(svg) {
+    margin-left: 0;
+  }
+
+  .release-body {
+    padding: 0 22px 8px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .release > .btn {
+    margin: 4px 22px 20px;
+  }
+
+  .release-body :global(h3),
+  .release-body :global(h4) {
+    color: var(--text);
+    font-size: 16px;
+    margin: 18px 0 8px;
+  }
+
+  .release-body :global(ul) {
+    margin: 0 0 10px;
+    padding-left: 20px;
+  }
+
+  .release-body :global(li) {
+    margin: 4px 0;
+  }
+
+  .release-body :global(p) {
+    margin: 0 0 10px;
+  }
+
+  .release-body :global(strong) {
+    color: var(--text);
+  }
+
+  .release-body :global(code) {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 13px;
+    background: var(--surface-3);
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+
+  .release-body :global(a) {
+    color: var(--accent-strong);
+  }
+
+  .release-body :global(.note) {
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--surface-2);
+  }
+
+  .release-body :global(.note-warning) {
+    border-color: rgb(232 168 56 / 45%);
+    background: rgb(232 168 56 / 8%);
+    color: #f0c77b;
+  }
+
+  .cta-band {
+    margin: 40px 0 0;
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line-strong);
+    background:
+      radial-gradient(80% 140% at 100% 0%, var(--accent-glow), transparent 60%),
+      var(--bg-raised);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .cta-band h2 {
+    font-size: clamp(26px, 3vw, 34px);
+  }
+
+  .cta-band p {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 980px) {
+    .features,
+    .showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-tabs {
+      position: static;
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .feature-tab {
+      flex: none;
+    }
+
+    .feature-tab small {
+      display: none;
+    }
+
+    .showcase.flip > :first-child {
+      order: 0;
+    }
+
+    .stats,
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat:nth-child(3) {
+      border-left: 0;
+    }
+
+    .stat:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .stats,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .stat + .stat {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .release-date {
+      display: none;
+    }
+  }
+</style>

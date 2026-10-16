@@ -1,0 +1,82 @@
+---
+import "../styles/global.css";
+import CommonHead from "../components/CommonHead.astro";
+import GameSwitch from "../components/GameSwitch.astro";
+import Icon from "../components/Icon.astro";
+
+interface Props {
+  game: "cryptic" | "tf2" | "home";
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Links for the middle of the header: label and href. */
+  nav?: { label: string; href: string }[];
+  /** The header's main button. */
+  cta?: { label: string; href: string; external?: boolean };
+}
+
+const { game, title, description, image, nav = [], cta } = Astro.props;
+const DISCORD = "https://discord.gg/XFDn8bbC7Q";
+---
+
+<!doctype html>
+<html lang="en" data-game={game}>
+  <head>
+    <CommonHead title={title} description={description} image={image} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="/">
+          <span class="brand-mark"><img src="/favicon.png" alt="" width="20" height="20" /></span>
+          modworks
+        </a>
+        <GameSwitch game={game} />
+        {
+          nav.length > 0 && (
+            <nav class="nav" aria-label="Page">
+              {nav.map((item) => (
+                <a href={item.href}>{item.label}</a>
+              ))}
+            </nav>
+          )
+        }
+        <div class="header-actions" style={nav.length === 0 ? "margin-left:auto" : undefined}>
+          <a class="btn btn-ghost btn-sm" href={DISCORD} target="_blank" rel="noopener">
+            <Icon name="chat" />Discord
+          </a>
+          {
+            cta && (
+              <a
+                class="btn btn-primary btn-sm"
+                href={cta.href}
+                target={cta.external ? "_blank" : undefined}
+                rel={cta.external ? "noopener" : undefined}
+                data-latest-download={game === "cryptic" ? "" : undefined}>
+                <Icon name="download" />
+                {cta.label}
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </header>
+
+    <main transition:animate="fade">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <span>© {new Date().getFullYear()} modworks.tf · made by iMicro</span>
+        <nav aria-label="Footer">
+          <a href="/cryptic">Cryptic</a>
+          <a href="/tf2">TF2 mods</a>
+          <a href="https://github.com/WhyiMicro/cryptic" target="_blank" rel="noopener">GitHub</a>
+          <a href={DISCORD} target="_blank" rel="noopener">Discord</a>
+          <a href="mailto:support@modworks.tf">support@modworks.tf</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

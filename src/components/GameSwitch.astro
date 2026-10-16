@@ -1,0 +1,43 @@
+---
+import Icon from "./Icon.astro";
+
+/**
+ * Minecraft | TF2, in the header of every page. Kept across page changes
+ * (transition:persist), so the pill slides from one to the other as the page
+ * swaps instead of jumping.
+ */
+interface Props {
+  game: "cryptic" | "tf2" | "home";
+}
+
+const { game } = Astro.props;
+const active = game === "home" ? "none" : game;
+---
+
+<nav class="game-switch" data-active={active} aria-label="Choose a game" transition:persist="game-switch">
+  <span class="indicator" aria-hidden="true"></span>
+  <a href="/cryptic" data-game-link="cryptic" aria-current={game === "cryptic" ? "page" : undefined}>
+    <Icon name="cube" /><span>Minecraft</span>
+  </a>
+  <a href="/tf2" data-game-link="tf2" aria-current={game === "tf2" ? "page" : undefined}>
+    <Icon name="target" /><span>TF2</span>
+  </a>
+</nav>
+
+<script>
+  // The switch is the old page's element after a swap, so it is told where it
+  // is now from the new page's <html data-game>. Changing data-active is what
+  // slides the indicator across.
+  function sync() {
+    const game = document.documentElement.dataset.game ?? "home";
+    const sw = document.querySelector<HTMLElement>(".game-switch");
+    if (!sw) return;
+    sw.dataset.active = game === "home" ? "none" : game;
+    sw.querySelectorAll<HTMLAnchorElement>("[data-game-link]").forEach((link) => {
+      if (link.dataset.gameLink === game) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+  }
+  document.addEventListener("astro:after-swap", sync);
+  document.addEventListener("astro:page-load", sync);
+</script>
