@@ -90,7 +90,7 @@ const showcases = [
       </div>
 
       <div class="shot-stage">
-        <div class="shot-cutout hero-shot" data-tilt="7">
+        <div class="shot-cutout hero-shot" data-tilt="2.5">
           <img src="/cryptic/menu.webp" alt="Cryptic's module menu" width="978" height="657" loading="eager" />
         </div>
       </div>
@@ -454,11 +454,11 @@ const showcases = [
     max-width: 380px;
   }
 
-  /* At rest the menu leans back, like a screen on a desk; the tilt script
-     turns it towards the pointer from there. */
+  /* At rest the menu turns towards the text and leans back a little; the
+     tilt script moves it a few degrees from there with the pointer. */
   .hero-shot {
-    --tilt-x: 6deg;
-    --tilt-y: -14deg;
+    --tilt-x: 4deg;
+    --tilt-y: -8deg;
   }
 
   .steps {

@@ -19,7 +19,7 @@ const latest = (await getReleases(1))[0];
       </div>
 
       <div class="games">
-        <a class="game game-tf2" href="/tf2" data-tilt="4">
+        <a class="game game-tf2" href="/tf2" data-tilt="2">
           <div class="game-art chip-art" aria-hidden="true">
             {
               mods.slice(0, 4).map((mod) => (
@@ -43,7 +43,7 @@ const latest = (await getReleases(1))[0];
           </div>
         </a>
 
-        <a class="game game-cryptic" href="/cryptic" data-tilt="4">
+        <a class="game game-cryptic" href="/cryptic" data-tilt="2">
           <div class="game-art">
             <img src="/cryptic/menu.webp" alt="" width="978" height="657" loading="eager" />
           </div>
@@ -60,7 +60,7 @@ const latest = (await getReleases(1))[0];
           </div>
         </a>
 
-        <a class="game game-discord" href="/discord" data-tilt="4">
+        <a class="game game-discord" href="/discord" data-tilt="2">
           <div class="game-art chip-art" aria-hidden="true">
             {
               tools.map((tool) => (
@@ -143,15 +143,7 @@ const latest = (await getReleases(1))[0];
     transition:
       border-color 0.25s ease,
       box-shadow 0.25s ease,
-      transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  /* While it follows the pointer, it follows quickly (see tilt.ts). */
-  .game.is-tilting {
-    transition:
-      border-color 0.25s ease,
-      box-shadow 0.25s ease,
-      transform 0.12s ease-out;
+      transform 0.2s ease-out;
   }
 
   .game-tf2 {

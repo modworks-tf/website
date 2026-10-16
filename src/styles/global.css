@@ -591,16 +591,13 @@ html[data-game="discord"] {
   height: auto;
 }
 
-/* Turns towards the pointer while it is over it (see tilt.ts). --tilt-x and
-   --tilt-y are set by the script; without them it rests at its own angle. */
+/* Rests at its own angle (--tilt-x, --tilt-y) and turns a little towards the
+   pointer from there (--tilt-dx, --tilt-dy, set by tilt.ts). */
 [data-tilt] {
-  transform: perspective(1400px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: perspective(800px) rotateY(calc(var(--tilt-y, 0deg) + var(--tilt-dy, 0deg)))
+    rotateX(calc(var(--tilt-x, 0deg) + var(--tilt-dx, 0deg)));
+  transition: transform 0.2s ease-out;
   will-change: transform;
-}
-
-[data-tilt].is-tilting {
-  transition: transform 0.12s ease-out;
 }
 
 /* ---------------------------------------------------------------------------
@@ -921,9 +918,9 @@ body.modal-open {
   }
 }
 
-/* Reduced motion: no tilt (see tilt.ts) and no page transitions, but small
-   UI changes such as the switch sliding across or the glow changing colour
-   still play. */
+/* Reduced motion: no page transitions, but small UI changes such as the
+   switch sliding across, the glow changing colour or the gentle tilt (see
+   tilt.ts) still play. */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
