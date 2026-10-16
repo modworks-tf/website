@@ -73,6 +73,9 @@ html[data-game="home"] {
 
 html {
   scroll-behavior: smooth;
+  /* Room for the scrollbar on every page, so a long page and a short one line
+     up and switching between them nudges nothing sideways. */
+  scrollbar-gutter: stable;
   scroll-padding-top: calc(var(--header-h) + 24px);
 }
 
@@ -142,9 +145,44 @@ main {
   initial-value: transparent;
 }
 
+@property --backdrop-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --backdrop-y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+/* Where each section's glow sits, in the order of the switch: TF2 to the
+   left, Minecraft right of centre, Discord far right. */
+html {
+  --glow-x: 50%;
+  --glow-y: 0%;
+}
+
+html[data-game="tf2"] {
+  --glow-x: 24%;
+  --glow-y: 6%;
+}
+
+html[data-game="cryptic"] {
+  --glow-x: 66%;
+  --glow-y: 10%;
+}
+
+html[data-game="discord"] {
+  --glow-x: 88%;
+  --glow-y: 4%;
+}
+
 /* A faint grid and a glow in the accent, behind the top of each page. It is
    kept across page changes (Base.astro), so switching sections fades the
-   glow to the new colour while the grid stays put. */
+   glow to the new colour and glides it to the new place while the grid stays
+   put. */
 .backdrop {
   position: absolute;
   inset: 0 0 auto 0;
@@ -152,11 +190,16 @@ main {
   pointer-events: none;
   z-index: 0;
   --backdrop-glow: var(--accent-glow);
+  --backdrop-x: var(--glow-x);
+  --backdrop-y: var(--glow-y);
   background:
-    radial-gradient(60% 50% at 70% 10%, var(--backdrop-glow), transparent 70%),
+    radial-gradient(60% 50% at var(--backdrop-x) var(--backdrop-y), var(--backdrop-glow), transparent 70%),
     radial-gradient(40% 40% at 10% 0%, rgb(255 255 255 / 4%), transparent 70%);
   mask-image: linear-gradient(to bottom, black 40%, transparent);
-  transition: --backdrop-glow 0.7s ease;
+  transition:
+    --backdrop-glow 0.8s ease,
+    --backdrop-x 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    --backdrop-y 0.9s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .backdrop::after {

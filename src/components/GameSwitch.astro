@@ -46,6 +46,26 @@ const links = [
       else link.removeAttribute("aria-current");
     });
   }
-  document.addEventListener("astro:after-swap", sync);
+
+  // Astro keeps the switch and the backdrop by taking them out of the old page
+  // and putting them into the new one. A just-inserted element has no earlier
+  // style to transition from, so the new section's colour and position would
+  // simply jump. Showing them the old section for one style pass first gives
+  // the slide and the glow somewhere to start from.
+  let previous: string | undefined;
+  document.addEventListener("astro:before-swap", () => {
+    previous = document.documentElement.dataset.game;
+  });
+  document.addEventListener("astro:after-swap", () => {
+    const html = document.documentElement;
+    const next = html.dataset.game;
+    if (previous && next && previous !== next) {
+      html.dataset.game = previous;
+      sync();
+      document.querySelectorAll(".game-switch .indicator, .backdrop").forEach((el) => getComputedStyle(el).transform);
+      html.dataset.game = next;
+    }
+    sync();
+  });
   document.addEventListener("astro:page-load", sync);
 </script>
