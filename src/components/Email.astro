@@ -1,0 +1,22 @@
+---
+/**
+ * The support address as a mailto link. Cloudflare's Email Address Obfuscation
+ * rewrites addresses into "[email protected]" and decodes them with a script
+ * that only runs on a full page load, so after a page swap they stayed
+ * scrambled. The email_off/email_on comments tell Cloudflare to leave this one
+ * alone; set:html keeps them in the output.
+ * Props: class, and label (the text shown; the address by default).
+ */
+import { EMAIL } from "../data/contact";
+
+interface Props {
+  class?: string;
+  label?: string;
+}
+
+const { class: cls = "", label = EMAIL } = Astro.props;
+const classAttr = cls ? ` class="${cls}"` : "";
+const html = `<!--email_off--><a${classAttr} href="mailto:${EMAIL}">${label}</a><!--email_on-->`;
+---
+
+<Fragment set:html={html} />

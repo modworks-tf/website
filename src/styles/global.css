@@ -342,6 +342,11 @@ main {
   background: rgb(255 255 255 / 8%);
 }
 
+.btn-ghost[aria-current="page"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
 .btn-sm {
   padding: 7px 12px;
   font-size: 13px;
@@ -402,11 +407,6 @@ main {
   border-color: transparent;
 }
 
-.tag-discord {
-  background: rgb(88 101 242 / 16%);
-  color: #9aa4ff;
-  border-color: transparent;
-}
 
 .eyebrow {
   display: inline-block;
@@ -508,41 +508,28 @@ main {
   margin: 0 8px;
 }
 
-/* A screenshot set into the page at an angle, like a device on a desk. */
-.shot-stage {
-  perspective: 1600px;
-}
-
-.shot {
+/* A screen cut out of the game, with its own shadow and transparent corners,
+   so it needs no frame of its own. */
+.shot-cutout {
   position: relative;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line-strong);
-  background: var(--surface);
-  box-shadow: var(--shadow), 0 0 0 1px rgb(255 255 255 / 3%) inset;
-  overflow: hidden;
+  filter: drop-shadow(0 30px 50px rgb(0 0 0 / 45%));
 }
 
-.shot img {
+.shot-cutout img {
   width: 100%;
   height: auto;
 }
 
-.shot-tilted {
-  transform: rotateY(-16deg) rotateX(6deg) rotateZ(1deg);
-  transform-origin: left center;
+/* Turns towards the pointer while it is over it (see tilt.ts). --tilt-x and
+   --tilt-y are set by the script; without them it rests at its own angle. */
+[data-tilt] {
+  transform: perspective(1400px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
-.shot-stage:hover .shot-tilted {
-  transform: rotateY(-8deg) rotateX(3deg);
-}
-
-.shot-glow {
-  position: absolute;
-  inset: -20%;
-  background: radial-gradient(closest-side, var(--accent-glow), transparent);
-  filter: blur(40px);
-  z-index: -1;
+[data-tilt].is-tilting {
+  transition: transform 0.12s ease-out;
 }
 
 /* ---------------------------------------------------------------------------
@@ -744,13 +731,32 @@ body.modal-open {
 /* ---------------------------------------------------------------------------
    Responsive
 --------------------------------------------------------------------------- */
+/* Contact and Discord shrink to their icons before anything runs out of room:
+   on a narrow desktop while the page links are in the header too, and on a
+   phone. (The page links hide below 980px.) */
+@media (min-width: 981px) and (max-width: 1180px) {
+  .has-nav .btn-collapse .btn-label {
+    display: none;
+  }
+
+  .has-nav .btn-collapse {
+    padding: 7px 9px;
+  }
+}
+
+@media (max-width: 760px) {
+  .btn-collapse .btn-label {
+    display: none;
+  }
+
+  .btn-collapse {
+    padding: 7px 9px;
+  }
+}
+
 @media (max-width: 980px) {
   .hero .container {
     grid-template-columns: 1fr;
-  }
-
-  .shot-tilted {
-    transform: none;
   }
 
   .grid-3,
@@ -777,7 +783,14 @@ body.modal-open {
     padding: 64px 0;
   }
 
-  .header-actions .btn {
+  /* Room for the logo, the switch and the two icon buttons; the download
+     button is in the page itself. */
+  .site-header .container {
+    gap: 12px;
+  }
+
+  .brand-name,
+  .header-cta {
     display: none;
   }
 
@@ -786,11 +799,61 @@ body.modal-open {
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Page changes. Between Cryptic and TF2 the page slides the way the switch
+   goes (Base.astro sets data-slide); everything else keeps Astro's fade.
+--------------------------------------------------------------------------- */
+@keyframes page-out-left {
+  to {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+}
+
+@keyframes page-in-left {
+  from {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+}
+
+@keyframes page-out-right {
+  to {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+}
+
+@keyframes page-in-right {
+  from {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+}
+
+html[data-slide="left"]::view-transition-old(page) {
+  animation: page-out-left 0.28s cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+html[data-slide="left"]::view-transition-new(page) {
+  animation: page-in-left 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s both !important;
+}
+
+html[data-slide="right"]::view-transition-old(page) {
+  animation: page-out-right 0.28s cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+html[data-slide="right"]::view-transition-new(page) {
+  animation: page-in-right 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s both !important;
+}
+
+/* Reduced motion: nothing moves the page about (no page slide or fade, no
+   tilt, see tilt.ts), but small UI changes such as the game switch sliding
+   across or a colour fading still play. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
     animation: none !important;
   }
 

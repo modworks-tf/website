@@ -3,6 +3,8 @@ import "../styles/global.css";
 import CommonHead from "../components/CommonHead.astro";
 import GameSwitch from "../components/GameSwitch.astro";
 import Icon from "../components/Icon.astro";
+import Email from "../components/Email.astro";
+import { DISCORD } from "../data/contact";
 
 interface Props {
   game: "cryptic" | "tf2" | "home";
@@ -16,7 +18,7 @@ interface Props {
 }
 
 const { game, title, description, image, nav = [], cta } = Astro.props;
-const DISCORD = "https://discord.gg/XFDn8bbC7Q";
+const onContact = Astro.url.pathname.replace(/\/$/, "") === "/contact";
 ---
 
 <!doctype html>
@@ -25,11 +27,15 @@ const DISCORD = "https://discord.gg/XFDn8bbC7Q";
     <CommonHead title={title} description={description} image={image} />
   </head>
   <body>
-    <header class="site-header">
+    <!-- Not part of the page's fade, so the game switch can be seen sliding. -->
+    <header
+      class:list={["site-header", { "has-nav": nav.length > 0 }]}
+      transition:name="site-header"
+      transition:animate="none">
       <div class="container">
         <a class="brand" href="/">
           <span class="brand-mark"><img src="/favicon.png" alt="" width="20" height="20" /></span>
-          modworks
+          <span class="brand-name">modworks</span>
         </a>
         <GameSwitch game={game} />
         {
@@ -42,13 +48,16 @@ const DISCORD = "https://discord.gg/XFDn8bbC7Q";
           )
         }
         <div class="header-actions" style={nav.length === 0 ? "margin-left:auto" : undefined}>
-          <a class="btn btn-ghost btn-sm" href={DISCORD} target="_blank" rel="noopener">
-            <Icon name="chat" />Discord
+          <a class="btn btn-ghost btn-sm btn-collapse" href="/contact" aria-label="Contact" aria-current={onContact ? "page" : undefined}>
+            <Icon name="mail" /><span class="btn-label">Contact</span>
+          </a>
+          <a class="btn btn-ghost btn-sm btn-collapse" href={DISCORD} target="_blank" rel="noopener" aria-label="Discord">
+            <Icon name="chat" /><span class="btn-label">Discord</span>
           </a>
           {
             cta && (
               <a
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary btn-sm header-cta"
                 href={cta.href}
                 target={cta.external ? "_blank" : undefined}
                 rel={cta.external ? "noopener" : undefined}
@@ -62,7 +71,7 @@ const DISCORD = "https://discord.gg/XFDn8bbC7Q";
       </div>
     </header>
 
-    <main transition:animate="fade">
+    <main transition:name="page" transition:animate="fade">
       <slot />
     </main>
 
@@ -72,11 +81,36 @@ const DISCORD = "https://discord.gg/XFDn8bbC7Q";
         <nav aria-label="Footer">
           <a href="/cryptic">Cryptic</a>
           <a href="/tf2">TF2 mods</a>
+          <a href="/contact">Contact</a>
           <a href="https://github.com/WhyiMicro/cryptic" target="_blank" rel="noopener">GitHub</a>
           <a href={DISCORD} target="_blank" rel="noopener">Discord</a>
-          <a href="mailto:support@modworks.tf">support@modworks.tf</a>
+          <Email />
         </nav>
       </div>
     </footer>
   </body>
 </html>
+
+<script>
+  // Going between Cryptic and TF2, the page slides the way the switch does:
+  // Minecraft is on the left, so going to TF2 moves the page left. Anything
+  // else keeps the plain fade. The new page's <html> replaces the old one's
+  // attributes in the swap, so the direction is put back on it after the swap,
+  // before the animation starts.
+  const ORDER: Record<string, number> = { cryptic: 0, tf2: 1 };
+  const gameOf = (url: URL) => {
+    const first = url.pathname.split("/")[1] ?? "";
+    return first in ORDER ? first : null;
+  };
+  let slide = "";
+
+  document.addEventListener("astro:before-preparation", (event) => {
+    const from = gameOf(event.from);
+    const to = gameOf(event.to);
+    slide = from && to && from !== to ? (ORDER[to] > ORDER[from] ? "left" : "right") : "";
+  });
+  document.addEventListener("astro:after-swap", () => {
+    if (slide) document.documentElement.dataset.slide = slide;
+    else delete document.documentElement.dataset.slide;
+  });
+</script>

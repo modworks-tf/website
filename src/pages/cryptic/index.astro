@@ -30,8 +30,8 @@ const showcases = [
     text: "Cards for every module, a search that finds names and descriptions, and favourites pinned to their own tab. Open a module and each setting says what it does, right under it. Profiles, keybinds, sounds and your HUD all live in the same place.",
     image: "/cryptic/module.webp",
     alt: "Cryptic's settings page for Daily Rewards",
-    width: 980,
-    height: 660,
+    width: 977,
+    height: 656,
   },
   {
     eyebrow: "Daily Rewards",
@@ -40,7 +40,7 @@ const showcases = [
     image: "/cryptic/reward.webp",
     alt: "The daily reward picker with three cards",
     width: 820,
-    height: 560,
+    height: 557,
   },
   {
     eyebrow: "Notifications",
@@ -48,8 +48,8 @@ const showcases = [
     text: "Cookie running low, all four tools found, a party invite you can accept with a key: Cryptic says it in a small notification that slides in, counts down, and gets out of the way.",
     image: "/cryptic/toasts.webp",
     alt: "Three Cryptic notifications stacked in the corner",
-    width: 308,
-    height: 222,
+    width: 288,
+    height: 202,
   },
 ];
 ---
@@ -101,8 +101,8 @@ const showcases = [
       </div>
 
       <div class="shot-stage">
-        <div class="shot shot-tilted" style="position:relative">
-          <img src="/cryptic/menu.webp" alt="Cryptic's module menu" width="980" height="660" loading="eager" />
+        <div class="shot-cutout hero-shot" data-tilt="7">
+          <img src="/cryptic/menu.webp" alt="Cryptic's module menu" width="978" height="657" loading="eager" />
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ const showcases = [
               <h2>{item.title}</h2>
               <p>{item.text}</p>
             </div>
-            <div class="shot">
+            <div class="shot-cutout">
               <img src={item.image} alt={item.alt} width={item.width} height={item.height} loading="lazy" />
             </div>
           </div>
@@ -315,6 +315,8 @@ const showcases = [
 </Base>
 
 <script>
+  import "../../scripts/tilt";
+
   function setupFeatureTabs() {
     const tabs = document.querySelectorAll<HTMLButtonElement>("[data-feature-tab]");
     tabs.forEach((tab) => {
@@ -466,13 +468,20 @@ const showcases = [
     font-size: 17px;
   }
 
-  .showcase .shot {
+  .showcase .shot-cutout {
     justify-self: center;
     width: 100%;
   }
 
-  .showcase:last-child .shot {
-    max-width: 420px;
+  .showcase:last-child .shot-cutout {
+    max-width: 380px;
+  }
+
+  /* At rest the menu leans back, like a screen on a desk; the tilt script
+     turns it towards the pointer from there. */
+  .hero-shot {
+    --tilt-x: 6deg;
+    --tilt-y: -14deg;
   }
 
   .steps {
@@ -652,6 +661,11 @@ const showcases = [
   }
 
   @media (max-width: 980px) {
+    .hero-shot {
+      --tilt-x: 0deg;
+      --tilt-y: 0deg;
+    }
+
     .features,
     .showcase {
       grid-template-columns: 1fr;

@@ -2,24 +2,25 @@
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
 import Modal from "../../components/Modal.astro";
-import { mods, others, contacts } from "../../data/tf2";
+import { mods, discord, others, type Tf2Link } from "../../data/tf2";
 
 const tabs = [
   { id: "mods", label: "Mods", count: mods.length },
+  { id: "discord", label: "Discord", count: discord.length },
   { id: "other", label: "Other tools", count: others.length },
-  { id: "contact", label: "Contact", count: contacts.length },
+];
+
+/** The Discord and Other tools tabs: a card per link, or per modal. */
+const linkPanels: { id: string; items: Tf2Link[] }[] = [
+  { id: "discord", items: discord },
+  { id: "other", items: others },
 ];
 ---
 
 <Base
   game="tf2"
   title="TF2 mods · modworks.tf"
-  description="A hand-picked set of Team Fortress 2 mods and tools: HUDs, crosshairs, textures, viewmodels and more."
-  nav={[
-    { label: "Mods", href: "#mods" },
-    { label: "Other tools", href: "#other" },
-    { label: "Contact", href: "#contact" },
-  ]}>
+  description="A hand-picked set of Team Fortress 2 mods and tools: HUDs, crosshairs, textures, viewmodels and more.">
   <div class="backdrop"></div>
 
   <section class="hero tf2-hero">
@@ -84,56 +85,39 @@ const tabs = [
       </div>
     </div>
 
-    <div class="store-panel" id="store-other" role="tabpanel" data-store-panel="other" hidden>
-      <div class="grid grid-3">
-        {
-          others.map((item) => (
-            <article class="card mod">
-              <div class="mod-top">
-                <span class="mod-initial" aria-hidden="true">
-                  {item.name.charAt(0).toUpperCase()}
-                </span>
-                <div class="mod-tags">
-                  <span class:list={["tag", { "tag-discord": item.tagKind === "discord" }]}>{item.tag}</span>
+    {
+      linkPanels.map((panel) => (
+        <div class="store-panel" id={`store-${panel.id}`} role="tabpanel" data-store-panel={panel.id} hidden>
+          <div class="grid grid-3">
+            {panel.items.map((item) => (
+              <article class="card mod">
+                <div class="mod-top">
+                  <span class="mod-initial" aria-hidden="true">
+                    {item.name.charAt(0).toUpperCase()}
+                  </span>
+                  <div class="mod-tags">
+                    <span class="tag">{item.tag}</span>
+                  </div>
                 </div>
-              </div>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              {item.modal ? (
-                <button class="btn btn-ghost btn-sm mod-action" data-open-modal={item.modal}>
-                  <Icon name="code" />
-                  {item.action}
-                </button>
-              ) : (
-                <a class="btn btn-ghost btn-sm mod-action" href={item.href} target="_blank" rel="noopener">
-                  {item.action}
-                  <Icon name="external" />
-                </a>
-              )}
-            </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="store-panel" id="store-contact" role="tabpanel" data-store-panel="contact" hidden>
-      <div class="grid grid-3">
-        {
-          contacts.map((item) => (
-            <article class="card mod">
-              <span class="icon-chip">
-                <Icon name={item.icon} />
-              </span>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <a class="btn btn-ghost btn-sm mod-action" href={item.href} target="_blank" rel="noopener">
-                {item.action}
-              </a>
-            </article>
-          ))
-        }
-      </div>
-    </div>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                {item.modal ? (
+                  <button class="btn btn-ghost btn-sm mod-action" data-open-modal={item.modal}>
+                    <Icon name="code" />
+                    {item.action}
+                  </button>
+                ) : (
+                  <a class="btn btn-ghost btn-sm mod-action" href={item.href} target="_blank" rel="noopener">
+                    {item.action}
+                    <Icon name="external" />
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      ))
+    }
   </section>
 
   <Modal id="customcss-modal" title="Discord CSS snippets">
@@ -149,11 +133,16 @@ const tabs = [
 </Base>
 
 <script>
-  // Tabs, kept in the address bar so a link can open one: /tf2#other. Old
-  // links from the previous site used #Mods, #Other and #Contact.
+  // Tabs, kept in the address bar so a link can open one: /tf2#discord. Old
+  // links from the previous site used #Mods, #Other and #Contact; contact now
+  // has its own page.
   function setupStore() {
     const tabs = document.querySelectorAll<HTMLButtonElement>("[data-store-tab]");
     if (!tabs.length) return;
+    if (location.hash.toLowerCase() === "#contact") {
+      location.replace("/contact");
+      return;
+    }
 
     function show(id: string, updateHash: boolean) {
       const known = Array.from(tabs).some((tab) => tab.dataset.storeTab === id);
@@ -170,12 +159,7 @@ const tabs = [
     const fromHash = () => show(location.hash.slice(1).toLowerCase(), false);
     fromHash();
     window.addEventListener("hashchange", fromHash);
-    // The header's links jump to a tab rather than scrolling to a hidden one.
-    document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        show(link.hash.slice(1), true);
-      });
-    });
+    document.addEventListener("astro:before-swap", () => window.removeEventListener("hashchange", fromHash), { once: true });
   }
   document.addEventListener("astro:page-load", setupStore);
 </script>

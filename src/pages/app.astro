@@ -1,7 +1,7 @@
 ---
 /**
  * The old address of the TF2 mods, kept so shared links still land:
- * /app#Mods goes to /tf2#mods.
+ * /app#Mods goes to /tf2#mods, and /app#Contact to /contact.
  */
 ---
 
@@ -14,7 +14,8 @@
     <link rel="canonical" href="https://modworks.tf/tf2" />
     <title>Moved to /tf2 · modworks.tf</title>
     <script is:inline>
-      location.replace("/tf2" + location.hash.toLowerCase());
+      const hash = location.hash.toLowerCase();
+      location.replace(hash === "#contact" ? "/contact" : "/tf2" + hash);
     </script>
   </head>
   <body>

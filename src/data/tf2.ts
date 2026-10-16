@@ -1,4 +1,4 @@
-/** The TF2 side: mods, other tools and ways to get in touch. */
+/** The TF2 side: mods, Discord tools and other tools. Ways to get in touch are in contact.ts. */
 
 export interface Tf2Mod {
   name: string;
@@ -56,74 +56,49 @@ export interface Tf2Link {
   description: string;
   href?: string;
   tag: string;
-  tagKind?: "discord";
   /** Opens a modal instead of a link. */
   modal?: string;
   action: string;
 }
 
-export const others: Tf2Link[] = [
-  {
-    name: "OpenAsar",
-    description: "A rewrite of part of Discord's desktop code, faster and with more features.",
-    href: "https://openasar.dev/",
-    tag: "Discord",
-    tagKind: "discord",
-    action: "Open",
-  },
+/** Discord client mods and themes. */
+export const discord: Tf2Link[] = [
   {
     name: "Vencord",
     description: "A Discord client mod that blocks tracking, adds plugins, theme support and more.",
     href: "https://vencord.dev/",
-    tag: "Discord",
-    tagKind: "discord",
+    tag: "client mod",
     action: "Open",
   },
   {
     name: "BetterDiscord",
     description: "Extends what Discord can do with new features.",
     href: "https://betterdiscord.app/",
-    tag: "Discord",
-    tagKind: "discord",
+    tag: "client mod",
     action: "Open",
   },
   {
-    name: "Equalizer APO",
-    description: "A parametric and graphic equalizer for Windows.",
-    href: "https://sourceforge.net/projects/equalizerapo/",
-    tag: "sfx",
+    name: "OpenAsar",
+    description: "A rewrite of part of Discord's desktop code, faster and with more features.",
+    href: "https://openasar.dev/",
+    tag: "speed",
     action: "Open",
   },
   {
     name: "Custom CSS",
     description: "CSS snippets that restyle the Discord client. Use them with Vencord, OpenAsar or BetterDiscord.",
-    tag: "Discord",
-    tagKind: "discord",
+    tag: "themes",
     modal: "customcss-modal",
     action: "Snippets",
   },
 ];
 
-export const contacts = [
+export const others: Tf2Link[] = [
   {
-    name: "Discord",
-    description: "Join the modworks.tf Discord server.",
-    href: "https://discord.gg/XFDn8bbC7Q",
-    action: "Join",
-    icon: "chat" as const,
-  },
-  {
-    name: "Steam",
-    description: "The creator of modworks.tf on Steam.",
-    href: "https://steamcommunity.com/profiles/76561198344765754",
+    name: "Equalizer APO",
+    description: "A parametric and graphic equalizer for Windows.",
+    href: "https://sourceforge.net/projects/equalizerapo/",
+    tag: "audio",
     action: "Open",
-    icon: "external" as const,
-  },
-  {
-    name: "Mail",
-    description: "Send us an email.",
-    href: "mailto:support@modworks.tf",
-    action: "support@modworks.tf",
-    icon: "mail" as const,
   },
 ];
