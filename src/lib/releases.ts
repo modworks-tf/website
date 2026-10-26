@@ -89,8 +89,9 @@ export function formatDate(iso: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// The release notes are Markdown. This covers what they use: headings, lists,
-// bold and italics, inline code, links, paragraphs and GitHub's alert boxes.
+// The release notes are Markdown. This covers what they use: headings, lists
+// (one level of nesting), bold and italics, inline code, links, paragraphs and
+// GitHub's alert boxes.
 // ---------------------------------------------------------------------------
 
 function escape(text: string) {
@@ -108,7 +109,8 @@ function inline(text: string) {
 export function markdown(source: string): string {
   const out: string[] = [];
   const lines = source.replace(/\r\n/g, "\n").split("\n");
-  let list: string[] | null = null;
+  // Each item with the indented items under it.
+  let list: { text: string; children: string[] }[] | null = null;
   let paragraph: string[] = [];
   let alert: { kind: string; lines: string[] } | null = null;
 
@@ -117,7 +119,15 @@ export function markdown(source: string): string {
     paragraph = [];
   };
   const flushList = () => {
-    if (list) out.push(`<ul>${list.map((item) => `<li>${inline(item)}</li>`).join("")}</ul>`);
+    if (list) {
+      const items = list.map((item) => {
+        const nested = item.children.length
+          ? `<ul>${item.children.map((child) => `<li>${inline(child)}</li>`).join("")}</ul>`
+          : "";
+        return `<li>${inline(item.text)}${nested}</li>`;
+      });
+      out.push(`<ul>${items.join("")}</ul>`);
+    }
     list = null;
   };
   const flushAlert = () => {
@@ -151,15 +161,20 @@ export function markdown(source: string): string {
       out.push(`<h${level}>${inline(heading[2])}</h${level}>`);
       continue;
     }
-    const item = /^\s*[-*]\s+(.*)$/.exec(line);
+    const item = /^(\s*)[-*]\s+(.*)$/.exec(line);
     if (item) {
       flushParagraph();
-      (list ??= []).push(item[1]);
+      const last = list?.[list.length - 1];
+      // Indented under an item: a sub-item of it.
+      if (last && item[1].length >= 2) last.children.push(item[2]);
+      else (list ??= []).push({ text: item[2], children: [] });
       continue;
     }
     if (list && /^\s{2,}\S/.test(raw)) {
-      // A wrapped list item.
-      list[list.length - 1] += ` ${line.trim()}`;
+      // A wrapped list item, or a wrapped sub-item.
+      const last = list[list.length - 1];
+      if (last.children.length) last.children[last.children.length - 1] += ` ${line.trim()}`;
+      else last.text += ` ${line.trim()}`;
       continue;
     }
     flushList();

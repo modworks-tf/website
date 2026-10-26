@@ -1,7 +1,7 @@
 /** The Cryptic page's stats and FAQ. */
 
 export const highlights = [
-  { value: "75+", label: "modules in one mod" },
+  { value: "95+", label: "modules in one mod" },
   { value: "26.2", label: "Minecraft, on Fabric" },
   { value: "Vulkan", label: "or OpenGL, whichever you play on" },
   { value: "Auto", label: "updates for your Minecraft version" },
@@ -26,10 +26,10 @@ export const faq = [
   },
   {
     q: "Is it allowed on Hypixel?",
-    a: "Most of Cryptic reads what Hypixel already shows you and draws it more clearly. A few modules (Auto GFS, Auto Requeue, Aliases, Keybinds, Experiment Solver and Talk before they load) send commands or clicks for you. Hypixel's rules are yours to weigh, so use those knowing that.",
+    a: "Most of Cryptic reads what Hypixel already shows you and draws it more clearly. Some features send commands or clicks for you, or show more than the game would. Client Restrictions in Settings switches between Legit, Semi-legit and Cheats, and hides everything above the mode you pick. Hypixel's rules are yours to weigh, so choose the mode that fits you.",
   },
   {
     q: "Where do the features come from?",
-    a: "Many are ported from open-source mods such as Odin, Skyblocker, SkyHanni and NoammAddons, under their licences. Every one is credited in the README, with its licence alongside.",
+    a: "Many started from open-source mods such as Odin, NoammAddons, Skyblocker and SkyHanni. The Credits page in Settings lists every project Cryptic was inspired by and what it took from each, and the licences of the parts that still come from other projects ship with the mod.",
   },
 ];
