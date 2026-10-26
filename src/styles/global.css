@@ -246,18 +246,13 @@ html[data-game="discord"] {
 }
 
 .brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
   display: grid;
   place-items: center;
-  background: var(--surface-3);
-  border: 1px solid var(--line-strong);
 }
 
 .brand-mark img {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
 }
 
 .nav {
