@@ -3,8 +3,9 @@
  *
  * The page also asks GitHub again in the browser (see LatestRelease.astro),
  * so a release published after the last deploy still shows on the download
- * button. If GitHub cannot be reached at build time, the page falls back to
- * linking the releases page itself.
+ * button. GitHub's API turns Cloudflare's builders away when they've used up
+ * its hourly limit, so the releases' Atom feed, which has no such limit, is
+ * read instead. If neither answers, the page links the releases page itself.
  */
 
 export const REPO = "WhyiMicro/cryptic";
@@ -68,12 +69,57 @@ export async function getReleases(count = 5): Promise<Release[]> {
     const response = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=${count + 5}`, {
       headers: { Accept: "application/vnd.github+json", "User-Agent": "modworks.tf" },
     });
+    if (response.ok) {
+      const list = (await response.json()) as GitHubRelease[];
+      return list
+        .filter((r) => !r.draft && !r.prerelease)
+        .slice(0, count)
+        .map(toRelease);
+    }
+  } catch {
+    // The feed below.
+  }
+  return getReleasesFromFeed(count);
+}
+
+function unescapeXml(text: string) {
+  return text
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+/**
+ * The same releases from GitHub's Atom feed. Its notes are already HTML, rendered by GitHub. The
+ * feed has no assets, so the jar's link is built from the name every release uses, and its size
+ * is left out.
+ */
+async function getReleasesFromFeed(count: number): Promise<Release[]> {
+  try {
+    const response = await fetch(`${RELEASES_URL}.atom`, { headers: { "User-Agent": "modworks.tf" } });
     if (!response.ok) return [];
-    const list = (await response.json()) as GitHubRelease[];
-    return list
-      .filter((r) => !r.draft && !r.prerelease)
-      .slice(0, count)
-      .map(toRelease);
+    const xml = await response.text();
+    const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => m[1]);
+    return entries.slice(0, count).flatMap((entry) => {
+      const tag = /<id>[^<]*\/([^/<]+)<\/id>/.exec(entry)?.[1];
+      if (!tag) return [];
+      const { version, minecraft } = splitTag(tag);
+      const jarName = minecraft ? `cryptic-${version}-${minecraft}.jar` : null;
+      return [{
+        tag,
+        version,
+        name: unescapeXml(/<title>([\s\S]*?)<\/title>/.exec(entry)?.[1] ?? tag),
+        date: /<updated>([^<]+)<\/updated>/.exec(entry)?.[1] ?? "",
+        url: /<link[^>]*href="([^"]+)"/.exec(entry)?.[1] ?? `${RELEASES_URL}/tag/${tag}`,
+        jarUrl: jarName ? `${RELEASES_URL}/download/${tag}/${jarName}` : null,
+        jarName,
+        jarSize: null,
+        minecraft,
+        html: unescapeXml(/<content[^>]*>([\s\S]*?)<\/content>/.exec(entry)?.[1] ?? ""),
+      }];
+    });
   } catch {
     return [];
   }
