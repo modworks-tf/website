@@ -1,7 +1,7 @@
 /** The Cryptic page's stats and FAQ. */
 
 export const highlights = [
-  { value: "95+", label: "modules in one mod" },
+  { value: "100+", label: "modules in one mod" },
   { value: "26.2", label: "Minecraft, on Fabric" },
   { value: "Vulkan", label: "or OpenGL, whichever you play on" },
   { value: "Auto", label: "updates for your Minecraft version" },
@@ -22,7 +22,7 @@ export const faq = [
   },
   {
     q: "How do updates work?",
-    a: "Update Checker tells you when a new version is out. Turn on Install updates automatically and the new jar is swapped in after you close the game. Only a release built for your Minecraft version is ever installed.",
+    a: "Update Checker tells you when a new version is out and asks whether to install it; turn on Install updates automatically and it doesn't ask. The new jar is downloaded and swapped in after you close the game. Only a release built for your Minecraft version is ever installed.",
   },
   {
     q: "Is it allowed on Hypixel?",
